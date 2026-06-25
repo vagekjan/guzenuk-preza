@@ -1,0 +1,1572 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Маркетинг запуска книги · Филипп Гузенюк</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Serif:wght@400;500;600;700&display=swap');
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%;overflow:hidden}
+body{font-family:'Inter',-apple-system,sans-serif;background:#1a1a1a;color:#fff;-webkit-font-smoothing:antialiased;display:flex}
+
+/* Sidebar */
+.sidebar{width:280px;background:#F4EFE9;border-right:1px solid #E5DCD0;height:100vh;overflow-y:auto;padding:24px 0 100px;transition:width .25s, padding .25s;flex-shrink:0}
+.sidebar.collapsed{width:0;padding:0;overflow:hidden}
+.side-header{padding:0 22px 18px;border-bottom:1px solid #E5DCD0;margin-bottom:12px}
+.side-pill{display:inline-block;font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:3px 9px;border-radius:20px;background:#FFEFEF;color:#B33A3A;margin-bottom:8px}
+.side-title{font-family:'IBM Plex Serif',Georgia,serif;font-size:17px;font-weight:600;color:#1A1A1A;line-height:1.3}
+.side-section{margin-bottom:6px}
+.side-section-label{display:flex;align-items:center;justify-content:space-between;padding:9px 22px;font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#888;cursor:pointer;user-select:none;transition:color .15s}
+.side-section-label:hover{color:#9B3B1A}
+.side-section-label .chev{font-size:12px;transition:transform .15s;color:#888}
+.side-num{display:inline-block;width:20px;margin-right:2px;color:#9B3B1A;font-weight:600;font-style:italic;font-variant-numeric:tabular-nums;font-family:'IBM Plex Serif',Georgia,serif}
+.side-item.active .side-num{color:rgba(255,255,255,0.9)}
+.side-section.collapsed .chev{transform:rotate(-90deg)}
+.side-section.collapsed .side-items{display:none}
+.side-items{padding:0 14px}
+.side-item{display:flex;align-items:center;gap:10px;width:100%;text-align:left;border:none;background:none;font-family:inherit;font-size:13px;color:#444;padding:7px 10px;margin:1px 0;border-radius:6px;cursor:pointer;transition:all .15s;line-height:1.3}
+.side-item:hover{background:#fff;color:#1A1A1A}
+.side-item.active{background:#9B3B1A;color:#fff;font-weight:600}
+.side-item-num{font-family:'IBM Plex Serif',Georgia,serif;font-size:11px;color:#aaa;flex-shrink:0;font-variant-numeric:tabular-nums;font-style:italic;min-width:18px}
+.side-item.active .side-item-num{color:rgba(255,255,255,0.7)}
+
+/* Sidebar toggle button */
+.side-toggle{position:fixed;top:16px;left:16px;z-index:200;width:36px;height:36px;border:1px solid #E5DCD0;background:#fff;border-radius:8px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:18px;color:#9B3B1A;box-shadow:0 2px 8px rgba(0,0,0,0.08);transition:left .25s}
+.has-sidebar:not(.collapsed) ~ .side-toggle{left:296px}
+
+.deck-wrap{flex:1;position:relative;height:100vh;overflow:hidden;background:#FBF8F3;color:#1A1A1A}
+.deck{width:100%;height:100%;position:relative;overflow:hidden;background:#FBF8F3;color:#1A1A1A}
+.slide{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:80px 100px;opacity:0;transition:opacity .3s;pointer-events:none}
+.slide.scroll{justify-content:flex-start;overflow-y:auto;padding-top:64px;padding-bottom:80px}
+.slide.scroll::-webkit-scrollbar{width:9px}.slide.scroll::-webkit-scrollbar-thumb{background:#D5C9B8;border-radius:5px}
+.slide.active{opacity:1;pointer-events:auto}
+
+.label{font-size:13px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:#9B3B1A;margin-bottom:16px}
+.title{font-family:'IBM Plex Serif',Georgia,serif;font-size:64px;font-weight:600;letter-spacing:-0.025em;line-height:1.1;text-align:center;margin-bottom:24px;max-width:1100px}
+.title.big{font-size:80px}
+.title.med{font-size:54px}
+.subtitle{font-size:20px;color:#666;text-align:center;max-width:900px;line-height:1.5;margin-bottom:32px}
+@media (max-width:1200px){
+  .slide{padding:60px 56px}
+  .title{font-size:50px}.title.big{font-size:60px}.title.med{font-size:42px}
+  .roi2-hero{font-size:28px}
+}
+@media (max-width:980px){
+  .sidebar{width:228px}
+  .slide{padding:46px 36px}
+  .title{font-size:40px}.title.big{font-size:46px}.title.med{font-size:34px}
+  .subtitle{font-size:17px;margin-bottom:24px}
+  .roi2-hero{font-size:24px}.roi2-real{font-size:16px}
+  .fm-name{font-size:16px}
+}
+@media (max-width:760px){
+  .sidebar{width:0;padding:0;overflow:hidden;border:none}
+  .slide{padding:40px 22px}
+  .title{font-size:30px}.title.big{font-size:34px}.title.med{font-size:26px}
+  .subtitle{font-size:15px;margin-bottom:20px}
+  .roi2-hero{font-size:21px}.roi2-conv{font-size:13px}.roi2-real{font-size:15px}
+}
+
+/* Тезисы */
+.tezis-list{max-width:980px;width:100%;display:flex;flex-direction:column;gap:14px;text-align:left}
+.tezis{background:#fff;border:1px solid #EAEAEA;border-left:4px solid #9B3B1A;border-radius:12px;padding:22px 28px;display:flex;align-items:flex-start;gap:18px}
+.tezis-num{font-family:'IBM Plex Serif',Georgia,serif;font-style:italic;font-size:18px;color:#9B3B1A;flex-shrink:0;min-width:32px}
+.tezis-text{font-size:21px;color:#1A1A1A;line-height:1.4;font-weight:500}
+.tezis-text b{color:#9B3B1A;font-weight:700}
+.tezis.gray{border-left-color:#888;background:#FAFAF7}
+.tezis.gray .tezis-num{color:#666}
+.tezis.green{border-left-color:#2D7D46}
+.tezis.green .tezis-num{color:#2D7D46}
+.tezis.green .tezis-text b{color:#2D7D46}
+
+/* HR-hypothesis cards */
+.hr-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;max-width:1100px;width:100%}
+.hr-card{background:#fff;border-radius:18px;padding:32px 36px;border:2px solid #9B3B1A}
+.hr-card-num{font-family:'IBM Plex Serif',Georgia,serif;font-size:13px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#9B3B1A;margin-bottom:10px}
+.hr-card-title{font-family:'IBM Plex Serif',Georgia,serif;font-size:28px;font-weight:600;margin-bottom:14px;color:#1A1A1A;line-height:1.2}
+.hr-card-text{font-size:17px;color:#444;line-height:1.6}
+
+/* Two columns */
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:24px;max-width:1100px;width:100%}
+.col-card{background:#fff;border:2px solid #EAEAEA;border-radius:18px;padding:32px 36px}
+.col-card.mine{border-color:#9B3B1A}
+.col-card.mine .col-card-label{color:#9B3B1A}
+.col-card.agency{border-color:#2c5aa0}
+.col-card.agency .col-card-label{color:#2c5aa0}
+.col-card-label{font-size:13px;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:10px}
+.col-card-title{font-family:'IBM Plex Serif',Georgia,serif;font-size:28px;font-weight:600;margin-bottom:14px;line-height:1.2}
+.col-card-text{font-size:16px;color:#444;line-height:1.6}
+
+/* Funnel */
+.funnel-mini{display:flex;flex-direction:column;gap:6px;align-items:center;max-width:900px;width:100%;margin:12px auto}
+.fm-row{padding:18px 30px;color:#fff;text-align:center;border-radius:12px;display:flex;justify-content:space-between;align-items:center;box-shadow:0 4px 12px rgba(0,0,0,0.1);cursor:pointer;position:relative;opacity:0;transform:translateY(-10px);transition:opacity .3s ease, transform .3s ease;max-height:0;padding-top:0;padding-bottom:0;overflow:hidden}
+.fm-row.shown{opacity:1;transform:translateY(0);max-height:90px;padding:12px 28px}
+.fm-row.reach{background:linear-gradient(180deg,#D98A1F 0%,#C77700 100%)}
+.fm-row.book{background:linear-gradient(180deg,#a39689 0%,#8a7d6f 100%)}
+.fm-row.mine{background:linear-gradient(180deg,#B5481F 0%,#9B3B1A 100%)}
+.fm-row.sales{background:linear-gradient(180deg,#2c5aa0 0%,#1f4380 100%)}
+.fm-name{font-family:'IBM Plex Serif',Georgia,serif;font-size:18.5px;font-weight:600}
+.fm-zone{font-size:11px;letter-spacing:2px;text-transform:uppercase;opacity:0.75;font-weight:700}
+.fm-row.is-last{box-shadow:0 6px 22px rgba(155,59,26,0.3), 0 0 0 3px rgba(155,59,26,0.22);animation:fm-pulse 2s ease-in-out infinite}
+.fm-row.is-last .fm-zone{opacity:0}
+.fm-row.is-last::after{content:"клик ↓";position:absolute;right:20px;top:50%;transform:translateY(-50%);background:rgba(255,255,255,0.95);color:#9B3B1A;padding:7px 12px;border-radius:100px;font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;animation:fm-nudge 1.4s ease-in-out infinite;box-shadow:0 4px 14px rgba(0,0,0,0.18)}
+@keyframes fm-pulse{0%,100%{box-shadow:0 6px 22px rgba(155,59,26,0.3), 0 0 0 3px rgba(155,59,26,0.22)} 50%{box-shadow:0 10px 30px rgba(155,59,26,0.45), 0 0 0 6px rgba(155,59,26,0.28)}}
+@keyframes fm-nudge{0%,100%{transform:translateY(-50%)} 50%{transform:translateY(-50%) translateY(4px)}}
+.fm-reset{display:block;margin:18px auto 0;padding:7px 16px;border:1px solid #ddd;background:transparent;color:#999;border-radius:100px;font-family:inherit;font-size:12px;cursor:pointer;transition:all .15s}
+.fm-reset:hover{border-color:#9B3B1A;color:#9B3B1A}
+.funnel-stage{position:relative;max-width:880px;width:100%;margin:20px auto}
+.funnel-stage .funnel-mini{margin:0 auto;max-width:680px}
+.fm-loop{position:absolute;top:0;left:0;width:78px;height:100%;opacity:0;transform:translateX(12px);transition:opacity .5s ease,transform .5s ease;pointer-events:none}
+.funnel-stage.looped .fm-loop{opacity:1;transform:translateX(0)}
+.fm-loop-line{position:absolute;top:5px;bottom:5px;left:13px;width:2.5px;background:linear-gradient(180deg,#D98A1F,#C77700);border-radius:3px}
+.fm-loop-arrow{position:absolute;top:-5px;left:8px;width:0;height:0;border-left:6px solid transparent;border-right:6px solid transparent;border-bottom:10px solid #C77700}
+.fm-node{position:absolute;left:15px;width:20px;height:1.5px;background:#C77700;border-radius:2px;opacity:.85}
+.fm-node::after{content:"";position:absolute;right:-2px;top:50%;transform:translateY(-50%);width:5px;height:5px;border-radius:50%;background:#C77700}
+
+/* Sources cards */
+.sources{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;max-width:1100px;width:100%}
+.src-card{background:#fff;border:1px solid #EAEAEA;border-top:4px solid #C77700;border-radius:14px;padding:24px 26px}
+.src-card-num{font-family:'IBM Plex Serif',Georgia,serif;font-style:italic;font-size:12px;color:#C77700;margin-bottom:8px}
+.src-card-title{font-family:'IBM Plex Serif',Georgia,serif;font-size:22px;font-weight:600;margin-bottom:10px;color:#1A1A1A;line-height:1.2}
+.src-card-text{font-size:14.5px;color:#555;line-height:1.55}
+
+/* Questions */
+.asks{display:grid;grid-template-columns:repeat(2,1fr);gap:20px;max-width:1100px;width:100%}
+.ask-card{background:#fff;border:2px solid #9B3B1A;border-radius:18px;padding:28px 32px}
+.ask-num{font-family:'IBM Plex Serif',Georgia,serif;font-size:12px;color:#9B3B1A;font-weight:700;letter-spacing:2px;margin-bottom:12px;text-transform:uppercase}
+.ask-title{font-family:'IBM Plex Serif',Georgia,serif;font-size:22px;font-weight:600;color:#1A1A1A;margin-bottom:12px;line-height:1.25}
+.ask-text{font-size:15px;color:#444;line-height:1.55}
+
+/* Roadmap snake */
+.roadmap{display:flex;flex-direction:column;gap:12px;max-width:1400px;width:100%;margin:24px auto 0}
+.rm-row{display:flex;align-items:center;gap:6px}
+.rm-item{flex:1;background:#fff;border:2px solid #9B3B1A;border-radius:14px;padding:18px 18px;display:flex;flex-direction:column;align-items:flex-start;gap:8px;min-width:0;cursor:pointer;transition:all .15s;text-align:left;box-shadow:0 3px 10px rgba(155,59,26,0.08)}
+.rm-item:hover{background:#FEF6EE;transform:translateY(-2px);box-shadow:0 8px 22px rgba(155,59,26,0.18)}
+.rm-num{font-family:'IBM Plex Serif',Georgia,serif;font-size:26px;font-weight:600;color:#9B3B1A;line-height:1}
+.rm-title{font-family:'Inter',sans-serif;font-size:13px;font-weight:600;color:#1A1A1A;line-height:1.3}
+.rm-arrow{font-size:22px;color:#9B3B1A;font-weight:700;flex-shrink:0;padding:0 2px}
+.rm-corner{display:flex;justify-content:flex-end;padding-right:32px;margin:-4px 0}
+.rm-corner-arrow{font-size:36px;color:#9B3B1A;font-weight:700;line-height:1}
+
+/* Distribution tree */
+.dist-tree{display:flex;flex-direction:column;align-items:center;gap:18px;max-width:1200px;width:100%;margin:0 auto}
+.dist-root{padding:28px 56px;background:linear-gradient(135deg,#9B3B1A 0%,#7a2e14 100%);color:#fff;border-radius:18px;font-family:'IBM Plex Serif',Georgia,serif;font-size:36px;font-weight:600;letter-spacing:0.5px;text-transform:uppercase;box-shadow:0 12px 32px rgba(155,59,26,0.35)}
+.dist-arrow-down{font-size:36px;color:#9B3B1A;font-weight:700;line-height:1}
+.dist-children{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;width:100%}
+.dist-child{background:#fff;border:2px solid #9B3B1A;border-radius:14px;padding:24px 20px;text-align:center;cursor:pointer;transition:all .15s;display:flex;flex-direction:column;align-items:center;gap:12px}
+.dist-child:hover{transform:translateY(-3px);box-shadow:0 12px 28px rgba(155,59,26,0.2);background:#FEF6EE}
+.dist-child-num{font-family:'IBM Plex Serif',Georgia,serif;font-size:28px;font-weight:600;color:#9B3B1A;line-height:1;opacity:0.7}
+.dist-child-title{font-family:'IBM Plex Serif',Georgia,serif;font-size:18px;font-weight:600;color:#1A1A1A;line-height:1.25}
+.dist-child-sub{font-size:12px;color:#888;line-height:1.4;font-weight:500}
+
+/* Distribution package cards */
+.pkg-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;max-width:1200px;width:100%;margin-top:12px}
+.pkg-card{background:#fff;border:2px solid #EAEAEA;border-radius:18px;padding:32px 28px;display:flex;flex-direction:column;gap:14px;position:relative;transition:all .15s}
+.pkg-card.featured{border-color:#9B3B1A;background:linear-gradient(180deg,#FEF6EE 0%,#fff 100%);box-shadow:0 12px 32px rgba(155,59,26,0.15)}
+.pkg-badge{position:absolute;top:-12px;right:24px;background:#9B3B1A;color:#fff;padding:4px 14px;border-radius:100px;font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase}
+.pkg-name{font-family:'IBM Plex Serif',Georgia,serif;font-size:22px;font-weight:600;color:#1A1A1A;line-height:1.2}
+.pkg-price{font-family:'IBM Plex Serif',Georgia,serif;font-size:36px;font-weight:600;color:#9B3B1A;line-height:1}
+.pkg-price-unit{font-size:14px;color:#888;font-weight:500}
+.pkg-list{list-style:none;padding:0;display:flex;flex-direction:column;gap:8px;margin-top:8px}
+.pkg-list li{font-size:14px;color:#444;line-height:1.5;padding-left:18px;position:relative}
+.pkg-list li::before{content:"·";position:absolute;left:6px;color:#9B3B1A;font-weight:700;font-size:18px}
+
+.promo-card{margin-top:24px;background:linear-gradient(135deg,#C77700 0%,#A05E00 100%);color:#fff;border-radius:18px;padding:28px 36px;max-width:1100px;width:100%;display:flex;align-items:center;gap:24px}
+.promo-icon{font-size:48px;flex-shrink:0;line-height:1}
+.promo-content{flex:1}
+.promo-title{font-family:'IBM Plex Serif',Georgia,serif;font-size:22px;font-weight:600;margin-bottom:6px}
+.promo-text{font-size:15px;color:rgba(255,255,255,0.92);line-height:1.5}
+.promo-deadline{font-family:'IBM Plex Serif',Georgia,serif;font-size:18px;font-weight:600;color:#FFE9B8;text-align:right;flex-shrink:0;border-left:1px solid rgba(255,255,255,0.3);padding-left:24px}
+
+/* Block opener slide */
+.opener-badge{font-family:'IBM Plex Serif',Georgia,serif;font-style:italic;font-size:16px;color:#9B3B1A;margin-bottom:20px;letter-spacing:1px;opacity:0.7}
+.blk-tag{display:inline-block;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:6px 16px;border-radius:100px;margin-bottom:16px;border:1.5px solid currentColor}
+.opener-title{font-family:'IBM Plex Serif',Georgia,serif;font-size:96px;font-weight:600;line-height:1.05;letter-spacing:-0.03em;color:#1A1A1A;margin-bottom:28px;max-width:1300px;text-align:center}
+.opener-line{font-size:24px;color:#555;line-height:1.5;max-width:900px;text-align:center;font-weight:500}
+.proto-btn{display:inline-flex;align-items:center;gap:10px;margin-top:36px;padding:16px 32px;background:#9B3B1A;color:#fff;border-radius:100px;font-family:'Inter',sans-serif;font-size:16px;font-weight:600;letter-spacing:0.3px;text-decoration:none;box-shadow:0 8px 24px rgba(155,59,26,0.25);transition:all .15s;border:none;cursor:pointer}
+.proto-btn:hover{background:#7a2e14;transform:translateY(-2px);box-shadow:0 12px 30px rgba(155,59,26,0.35)}
+.proto-btn .arrow{font-size:18px}
+
+/* Final */
+.cta-final{max-width:1000px;text-align:center}
+.cta-line{font-family:'IBM Plex Serif',Georgia,serif;font-size:38px;line-height:1.3;color:#1A1A1A;margin-bottom:24px}
+.cta-em{color:#9B3B1A;font-style:italic}
+
+/* Nav */
+.nav{position:fixed;bottom:32px;left:0;right:0;display:flex;justify-content:center;align-items:center;gap:14px;z-index:100;pointer-events:none}
+.nav-btn,.nav-counter{pointer-events:auto}
+.nav-btn{width:48px;height:48px;border-radius:50%;background:#fff;border:1px solid #E0DDD8;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:22px;color:#9B3B1A;font-weight:600;transition:all .15s;box-shadow:0 2px 8px rgba(0,0,0,0.06)}
+.nav-btn:hover{background:#9B3B1A;color:#fff;border-color:#9B3B1A;transform:translateY(-1px)}
+.nav-btn:disabled{opacity:0.3;cursor:not-allowed}
+.nav-counter{font-family:'IBM Plex Serif',Georgia,serif;font-size:15px;font-weight:600;color:#888;padding:0 14px;font-variant-numeric:tabular-nums}
+.hint{position:fixed;top:24px;right:32px;font-size:12px;color:#888;letter-spacing:1px;text-transform:uppercase;font-weight:600}
+</style>
+</head>
+<body>
+
+<aside class="sidebar has-sidebar" id="sidebar">
+  <div class="side-header">
+    <div class="side-pill">Короткий трек</div>
+    <div class="side-title">Маркетинг запуска книги</div>
+  </div>
+
+  <div class="side-section">
+    <div class="side-section-label" data-section="intro"><span>Введение</span><span class="chev">▾</span></div>
+    <div class="side-items">
+      <button class="side-item" data-go="0"><span>Титул</span></button>
+      <button class="side-item" data-go="aud"><span>Три аудитории</span></button>
+      <button class="side-item" data-go="3"><span>5 направлений</span></button>
+      <button class="side-item" data-go="split"><span>Что берём сразу</span></button>
+    </div>
+  </div>
+
+  <div class="side-section">
+    <div class="side-section-label" data-section="b1"><span style="color:#9B3B1A">Проектирование воронки</span><span class="chev">▾</span></div>
+    <div class="side-items">
+      <button class="side-item" data-go="12"><span><span class="side-num">01</span>Сайт предзаказа</span></button>
+      <button class="side-item" data-go="13"><span>· Что внутри</span></button>
+      <button class="side-item" data-go="6"><span><span class="side-num">02</span>Вкладыш в книгу</span></button>
+      <button class="side-item" data-go="7"><span>· Что внутри</span></button>
+      <button class="side-item" data-go="8"><span><span class="side-num">03</span>Квиз №1 · личная</span></button>
+      <button class="side-item" data-go="9"><span>· Что внутри</span></button>
+      <button class="side-item" data-go="10"><span><span class="side-num">04</span>Квиз №2 · бизнес</span></button>
+      <button class="side-item" data-go="11"><span>· Что внутри</span></button>
+    </div>
+  </div>
+
+  <div class="side-section">
+    <div class="side-section-label" data-section="hr"><span>Ключевой вопрос HR</span><span class="chev">▾</span></div>
+    <div class="side-items">
+      <button class="side-item" data-go="4"><span>Как мотивировать HR</span></button>
+    </div>
+  </div>
+
+  <div class="side-section">
+    <div class="side-section-label" data-section="b2"><span style="color:#2D7D46">Раздача по людям</span><span class="chev">▾</span></div>
+    <div class="side-items">
+      <button class="side-item" data-go="14"><span><span class="side-num">05</span>HR-канал</span></button>
+      <button class="side-item" data-go="15"><span>· Как находим механику</span></button>
+      <button class="side-item" data-go="15b"><span>· Масштаб канала</span></button>
+      <button class="side-item" data-go="ptseca"><span><span class="side-num">06</span>Предприниматели ЦА</span></button>
+      <button class="side-item" data-go="ptsecb"><span>· Три цели</span></button>
+      <button class="side-item" data-go="16"><span><span class="side-num">07</span>Бизнес-звёзды · PR</span></button>
+      <button class="side-item" data-go="17"><span>· Как вручаем</span></button>
+    </div>
+  </div>
+
+  <div class="side-section">
+    <div class="side-section-label" data-section="b3"><span style="color:#2c5aa0">Мероприятия</span><span class="chev">▾</span></div>
+    <div class="side-items">
+      <button class="side-item" data-go="18"><span><span class="side-num">08</span>Книга на мероприятиях</span></button>
+      <button class="side-item" data-go="19"><span>· 3 типовых сценария</span></button>
+    </div>
+  </div>
+
+  <div class="side-section">
+    <div class="side-section-label" data-section="forum"><span style="color:#2D7D46">Форум «Стратегируй»</span><span class="chev">▾</span></div>
+    <div class="side-items">
+      <button class="side-item" data-go="f1"><span><span class="side-num">09</span>Форум + инфлюенсеры</span></button>
+      <button class="side-item" data-go="f2"><span>Механика инфлюенсера</span></button>
+      <button class="side-item" data-go="f2b"><span>Эффект · 3 выхлопа</span></button>
+      <button class="side-item" data-go="f3"><span>3 пакета на выбор</span></button>
+    </div>
+  </div>
+
+  <div class="side-section">
+    <div class="side-section-label" data-section="dist"><span>Дистрибуция · Writer&rsquo;s Way</span><span class="chev">▾</span></div>
+    <div class="side-items">
+      <button class="side-item" data-go="26"><span>Что это</span></button>
+      <button class="side-item" data-go="27"><span>4 компонента (схема)</span></button>
+      <button class="side-item" data-go="28"><span>Маркетплейсы</span></button>
+      <button class="side-item" data-go="29"><span>Электронные площадки</span></button>
+      <button class="side-item" data-go="30"><span>Мероприятия</span></button>
+      <button class="side-item" data-go="31"><span>Предзаказ</span></button>
+      <button class="side-item" data-go="32"><span>3 пакета и цены</span></button>
+    </div>
+  </div>
+
+  <div class="side-section">
+    <div class="side-section-label" data-section="track"><span>Итог</span><span class="chev">▾</span></div>
+    <div class="side-items">
+      <button class="side-item" data-go="35"><span>9 блоков работы</span></button>
+    </div>
+  </div>
+
+  <div class="side-section">
+    <div class="side-section-label" data-section="money"><span>Сроки и бюджет</span><span class="chev">▾</span></div>
+    <div class="side-items">
+      <button class="side-item" data-go="timeline"><span>Таймлайн</span></button>
+      <button class="side-item" data-go="sm"><span>Смета · продюсирование</span></button>
+      <button class="side-item" data-go="sm-dist"><span>Смета · дистрибуция</span></button>
+      <button class="side-item" data-go="pay"><span>Схема оплаты</span></button>
+      <button class="side-item" data-go="forum-track"><span>Форум · отдельно</span></button>
+      <button class="side-item" data-go="bonus"><span>Бонус за старт</span></button>
+      <button class="side-item" data-go="blank36"><span>Бланк 36 параметров</span></button>
+      <button class="side-item" data-go="layers7"><span>7 слоёв выступления</span></button>
+      <button class="side-item" data-go="payoff"><span>Выхлоп</span></button>
+    </div>
+  </div>
+
+</aside>
+
+<button class="side-toggle" id="side-toggle" title="Свернуть / развернуть меню">☰</button>
+
+<div class="deck-wrap">
+<div class="deck" id="deck">
+
+  <!-- 1 ТИТУЛ -->
+  <div class="slide active" data-i="0">
+        <img src="guzenuk.png" alt="Филипп Гузенюк" style="width:150px;height:150px;border-radius:50%;object-fit:cover;border:4px solid #9B3B1A;margin-bottom:38px;box-shadow:0 10px 30px rgba(0,0,0,0.12)">
+    <h1 class="title big" style="margin-bottom:20px">Маркетинг запуска книги</h1>
+    <p class="subtitle" style="margin-bottom:0">Филипп Гузенюк &nbsp;·&nbsp; июнь 2026</p>
+  </div>
+
+  <!-- 2 ВОРОНКА -->
+  <div class="slide" data-i="2" style="padding-bottom:128px">
+    <div class="label">Главная картина</div>
+    <h1 class="title med">От первого касания до денег</h1>
+    <div class="funnel-stage" id="funnel-stage">
+      <div class="funnel-mini" id="funnel-mini">
+      <div class="fm-row reach" style="width:100%"><span class="fm-name">Этап 01 · Узнали о книге</span><span class="fm-zone">Привлечение</span></div>
+      <div class="fm-row reach" style="width:90%"><span class="fm-name">Этап 02 · Захотели купить</span><span class="fm-zone">Привлечение</span></div>
+      <div class="fm-row book" style="width:81%"><span class="fm-name">Этап 03 · Книга в руках</span><span class="fm-zone">Книга</span></div>
+      <div class="fm-row book" style="width:72%"><span class="fm-name">Этап 04 · Вовлечение в книгу</span><span class="fm-zone">Книга</span></div>
+      <div class="fm-row mine" style="width:63%"><span class="fm-name">Этап 05 · Переход на квиз</span><span class="fm-zone">База / квиз</span></div>
+      <div class="fm-row mine" style="width:54%"><span class="fm-name">Этап 06 · Прохождение квиза</span><span class="fm-zone">База / квиз</span></div>
+      <div class="fm-row mine" style="width:45%"><span class="fm-name">Этап 07 · Запись на диагностику</span><span class="fm-zone">База / квиз</span></div>
+      <div class="fm-row sales" style="width:36%"><span class="fm-name">Этап 08 · Продажа</span><span class="fm-zone">Отдел продаж</span></div>
+    </div>
+      <div class="fm-loop" aria-hidden="true">
+        <span class="fm-loop-line"></span>
+        <span class="fm-loop-arrow"></span>
+        <span class="fm-node" style="top:5.6%"></span>
+        <span class="fm-node" style="top:18.3%"></span>
+        <span class="fm-node" style="top:31.0%"></span>
+        <span class="fm-node" style="top:43.7%"></span>
+        <span class="fm-node" style="top:56.3%"></span>
+        <span class="fm-node" style="top:69.0%"></span>
+        <span class="fm-node" style="top:81.7%"></span>
+        <span class="fm-node" style="top:94.4%"></span>
+      </div>
+    </div>
+    <button class="fm-reset" id="fm-reset">↺ Сбросить</button>
+  </div>
+
+  <!-- ТРИ АУДИТОРИИ -->
+  <div class="slide" data-i="aud">
+    <div class="label">Кто двигает воронку</div>
+    <h1 class="title med" style="margin-bottom:12px">Три аудитории</h1>
+    <p class="subtitle" style="margin-bottom:40px;font-size:18px">Не три воронки · три роли в одной.</p>
+    <style>
+      .aud-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;max-width:1080px;width:100%;align-items:start}
+      .aud-card{border:1px solid #E5DCD0;border-radius:18px;padding:26px 26px;text-align:left;background:#fff;border-top:4px solid var(--c)}
+      .aud-role{font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--c);margin-bottom:14px}
+      .aud-name{font-family:'IBM Plex Serif',Georgia,serif;font-size:23px;font-weight:600;color:#1A1A1A;margin-bottom:10px;line-height:1.15}
+      .aud-desc{font-size:15px;color:#555;line-height:1.5;margin-bottom:18px}
+      .aud-lvl{font-size:13px;color:var(--c);font-weight:600}
+    </style>
+    <div class="aud-grid">
+      <div class="aud-card" style="--c:#C77700">
+        <div class="aud-role">Усилители</div>
+        <div class="aud-name">Лидеры мнений</div>
+        <div class="aud-desc">Создают узнаваемость и доверие, запускают сарафан вокруг книги.</div>
+        <div class="aud-lvl">↑ верх воронки · привлечение</div>
+      </div>
+      <div class="aud-card" style="--c:#2D7D46">
+        <div class="aud-role">Дверь</div>
+        <div class="aud-name">HR</div>
+        <div class="aud-desc">Канал доступа к собственнику: заносит книгу, открывает контакт. Сам не покупатель.</div>
+        <div class="aud-lvl">• середина · доставка</div>
+      </div>
+      <div class="aud-card" style="--c:#2c5aa0">
+        <div class="aud-role">Цель</div>
+        <div class="aud-name">Собственники и топы</div>
+        <div class="aud-desc">Конечный читатель и покупатель: диагностика, «Глубина». Ради них всё и строится.</div>
+        <div class="aud-lvl">↓ низ воронки · покупка</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3 КАРТА · 5 КЛАСТЕРОВ -->
+  <div class="slide" data-i="3">
+    <div class="label">Из чего состоит короткий трек</div>
+    <h1 class="title med" style="margin-bottom:30px">5 направлений</h1>
+    <style>
+      .cl-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;max-width:1140px;width:100%;align-items:start}
+      .cl-card{border:1px solid #E5DCD0;border-radius:16px;padding:20px 22px;text-align:left;background:#fff;border-top:4px solid var(--c)}
+      .cl-h{font-size:12px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--c);margin-bottom:14px}
+      .cl-it{display:flex;gap:10px;align-items:baseline;padding:7px 0;border-bottom:1px solid #F4EFE9;font-size:14.5px;color:#1A1A1A;cursor:pointer;transition:color .12s}
+      .cl-it:last-child{border-bottom:none}
+      .cl-it[data-go]:hover{color:var(--c)}
+      .cl-it.static{cursor:default}
+      .cl-n{color:var(--c);font-weight:600;font-style:italic;font-family:'IBM Plex Serif',Georgia,serif;min-width:24px;font-variant-numeric:tabular-nums}
+      .cl-note{font-size:12px;color:#aaa;font-style:italic}
+    </style>
+    <div class="cl-grid">
+      <div class="cl-card" style="--c:#9B3B1A">
+        <div class="cl-h">Проектирование воронки</div>
+        <div class="cl-it" data-go="12"><span class="cl-n">01</span>Сайт предзаказа</div>
+        <div class="cl-it" data-go="6"><span class="cl-n">02</span>Вкладыш в книгу</div>
+        <div class="cl-it" data-go="8"><span class="cl-n">03</span>Квиз №1 · личная</div>
+        <div class="cl-it" data-go="10"><span class="cl-n">04</span>Квиз №2 · бизнес</div>
+      </div>
+      <div class="cl-card" style="--c:#2D7D46">
+        <div class="cl-h">Раздача по людям</div>
+        <div class="cl-it" data-go="14"><span class="cl-n">05</span>HR-канал</div>
+        <div class="cl-it" data-go="ptseca"><span class="cl-n">06</span>Предприниматели ЦА</div>
+        <div class="cl-it" data-go="16"><span class="cl-n">07</span>Бизнес-звёзды · PR</div>
+      </div>
+      <div class="cl-card" style="--c:#2c5aa0">
+        <div class="cl-h">Мероприятия</div>
+        <div class="cl-it" data-go="18"><span class="cl-n">08</span>Книга на мероприятиях</div>
+      </div>
+      <div class="cl-card" style="--c:#2D7D46">
+        <div class="cl-h">Форум «Стратегируй»</div>
+        <div class="cl-it" data-go="f1"><span class="cl-n">09</span>Форум + инфлюенсеры</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- РАЗРЕЗ: ЯСНО / ПРОЯСНЕНИЕ -->
+  <div class="slide" data-i="split">
+    <div class="label">Как заходим в работу</div>
+    <h1 class="title med" style="margin-bottom:30px">Берём понятное сразу</h1>
+    <style>
+      .sp-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;max-width:1080px;width:100%;align-items:start}
+      .sp-col{border:1px solid #E5DCD0;border-radius:18px;padding:24px 26px;text-align:left;border-top:4px solid #ccc;background:#fff}
+      .sp-col.ready{border-top-color:#2D7D46}
+      .sp-col.tbd{border-top-color:#C77700}
+      .sp-h{font-size:12px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:6px}
+      .sp-col.ready .sp-h{color:#2D7D46}
+      .sp-col.tbd .sp-h{color:#C77700}
+      .sp-sub{font-size:13px;color:#888;margin-bottom:16px;line-height:1.45}
+      .sp-item{display:flex;gap:12px;padding:8px 0;border-bottom:1px solid #F4EFE9;font-size:15px;color:#1A1A1A;align-items:baseline}
+      .sp-item:last-child{border-bottom:none}
+      .sp-num{color:#9B3B1A;font-weight:600;font-style:italic;font-family:'IBM Plex Serif',Georgia,serif;min-width:26px;font-variant-numeric:tabular-nums}
+      .sp-plus{color:#C77700}
+    </style>
+    <div class="sp-grid">
+      <div class="sp-col ready">
+        <div class="sp-h">Ясно · старт сразу</div>
+        <div class="sp-sub">Цифровая инфраструктура. Фикс-цена, паковка и работа сейчас.</div>
+        <div class="sp-item"><span class="sp-num">01</span>Сайт предзаказа</div>
+        <div class="sp-item"><span class="sp-num">02</span>Вкладыш в книгу</div>
+        <div class="sp-item"><span class="sp-num">03</span>Квиз №1 · личная стратегия</div>
+        <div class="sp-item"><span class="sp-num">04</span>Квиз №2 · бизнес-стратегия</div>
+      </div>
+      <div class="sp-col tbd">
+        <div class="sp-h">Требует прояснения</div>
+        <div class="sp-sub">Зависит от данных Филиппа и синхрона с бандами. Рамочно сейчас · детально доп.соглашениями.</div>
+        <div class="sp-item"><span class="sp-num">05</span>HR-канал</div>
+        <div class="sp-item"><span class="sp-num">06</span>Предприниматели ЦА</div>
+        <div class="sp-item"><span class="sp-num">07</span>Бизнес-звёзды · PR</div>
+        <div class="sp-item"><span class="sp-num">08</span>Книга на мероприятиях</div>
+        <div class="sp-item"><span class="sp-num">09</span>Форум + инфлюенсеры</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 6 БЛОК 01 OPENER -->
+  <div class="slide" data-i="12">
+    <div class="blk-tag" style="color:#9B3B1A">Проектирование воронки</div>
+    <div class="opener-badge">Блок 01 из 9</div>
+    <h1 class="opener-title">Сайт предзаказа книги</h1>
+    <p class="opener-line">Куда вести интерес. <b style="color:#9B3B1A">Предзаказ за деньги</b>, не за контакты</p>
+  </div>
+  <!-- 7 БЛОК 01 DETAIL -->
+  <div class="slide" data-i="13">
+    <div class="label">Блок 01 · подробно</div>
+    <h1 class="title med">Что внутри блока</h1>
+    <div class="tezis-list">
+      <div class="tezis"><span class="tezis-num">01</span><div class="tezis-text">Сейчас <b>некуда вести интерес</b>. Прогрев не идёт потому что некуда приземлять.</div></div>
+      <div class="tezis"><span class="tezis-num">02</span><div class="tezis-text">Предзаказ <b>за деньги</b>, не за контакты. Только контакты · люди не возвращаются. Голосование рублём работает.</div></div>
+      <div class="tezis"><span class="tezis-num">03</span><div class="tezis-text">Бонусы за предзаказ: доступ к квизу, ранний материал, что-то ценное.</div></div>
+      <div class="tezis"><span class="tezis-num">04</span><div class="tezis-text">Сайт встроен в общую воронку. Это <b>начало прогрева</b> и ориентир по первому тиражу.</div></div>
+    </div>
+  </div>
+
+  <!-- 8 БЛОК 02 OPENER -->
+  <div class="slide" data-i="6">
+    <div class="blk-tag" style="color:#9B3B1A">Проектирование воронки</div>
+    <div class="opener-badge">Блок 02 из 9</div>
+    <h1 class="opener-title">Вкладыш в книгу</h1>
+    <p class="opener-line">Архитектура связки <b style="color:#9B3B1A">книга → вкладыш → квиз → диагностика</b></p>
+  </div>
+  <!-- 9 БЛОК 02 DETAIL -->
+  <div class="slide" data-i="7">
+    <div class="label">Блок 02 · подробно</div>
+    <h1 class="title med">Что внутри блока</h1>
+    <div class="two-col" style="grid-template-columns:1fr;max-width:900px">
+      <div class="col-card mine">
+        <div class="col-card-label">Результат</div>
+        <div class="col-card-title">Документ-стратегия + макеты вкладышей</div>
+        <div class="col-card-text">Путь пользователя от первого контакта до покупки продукта. Вкладыши в книгу с QR · концепция, тексты, дизайн. К концу трека готовы к печати.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 10 БЛОК 03 OPENER -->
+  <div class="slide" data-i="8">
+    <div class="blk-tag" style="color:#9B3B1A">Проектирование воронки</div>
+    <div class="opener-badge">Блок 03 из 9</div>
+    <h1 class="opener-title">Квиз №1 · личная стратегия</h1>
+    <p class="opener-line">«Помоги мне с собой» · для тех у кого актуализирован запрос на работу с собой</p>
+    <a class="proto-btn" href="petelka.html" target="_blank"><span class="arrow">↗</span> Открыть прототип «Твоя траектория развития»</a>
+  </div>
+  <!-- 11 БЛОК 03 DETAIL -->
+  <div class="slide" data-i="9">
+    <div class="label">Блок 03 · подробно</div>
+    <h1 class="title med">Что внутри блока</h1>
+    <div class="two-col" style="grid-template-columns:1fr;max-width:900px">
+      <div class="col-card mine">
+        <div class="col-card-label">На базе книги · прототип есть</div>
+        <div class="col-card-title">Интерактивная диагностика</div>
+        <div class="col-card-text">Самоидентификация: Достигатель → Индивидуалист → Стратег. Прототип готов, протестирован.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 12 БЛОК 04 OPENER -->
+  <div class="slide" data-i="10">
+    <div class="blk-tag" style="color:#9B3B1A">Проектирование воронки</div>
+    <div class="opener-badge">Блок 04 из 9</div>
+    <h1 class="opener-title">Квиз №2 · бизнес-стратегия</h1>
+    <p class="opener-line">«Помоги мне с командой и бизнесом» · для тех у кого болит сильнее в бизнесе</p>
+    <a class="proto-btn" href="strategist-display.html" target="_blank"><span class="arrow">↗</span> Открыть прототип «Дисплей Стратега · 16-факторный канвас»</a>
+  </div>
+  <!-- 13 БЛОК 04 DETAIL -->
+  <div class="slide" data-i="11">
+    <div class="label">Блок 04 · подробно</div>
+    <h1 class="title med">Что внутри блока</h1>
+    <div class="two-col" style="grid-template-columns:1fr;max-width:900px">
+      <div class="col-card mine">
+        <div class="col-card-label">На базе канваса стратегирования</div>
+        <div class="col-card-title">Параллельная ветка к Квизу №1</div>
+        <div class="col-card-text">Часть аудитории заходит через бизнес-боль, не через личную. Увеличивает шанс конверсии на каждом этапе воронки. Привязка к форуму «Стратегируй» (ноябрь, Сбер, 400 чел).</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4 ГЛАВНАЯ БОЛЬ -->
+  <div class="slide" data-i="4">
+    <div class="label">Ключевой вопрос</div>
+    <h1 class="title">Как сделать, чтобы HR захотел рассказать о книге собственнику?</h1>
+    <p class="subtitle" style="max-width:1000px">Вопрос, на который пока нет готового ответа.</p>
+  </div>
+
+  <!-- 14 БЛОК 05 OPENER -->
+  <div class="slide" data-i="14">
+    <div class="blk-tag" style="color:#2D7D46">HR</div>
+    <div class="opener-badge">Блок 05 из 9</div>
+    <h1 class="opener-title">HR-канал</h1>
+    <p class="opener-line">Тот самый вопрос с января: <b style="color:#9B3B1A">что заставит HR передать книгу собственнику?</b> Не угадываем · проверяем на самих HR.</p>
+  </div>
+  <!-- 15 БЛОК 05 DETAIL -->
+  <div class="slide" data-i="15">
+    <div class="label">Блок 05 · подробно</div>
+    <h1 class="title med" style="margin-bottom:30px">Как находим механику, которая попадёт</h1>
+    <style>
+      .hrl{display:grid;grid-template-columns:1fr 1fr;gap:12px 34px;max-width:1080px;width:100%}
+      .hrl-row{display:flex;gap:16px;align-items:flex-start;text-align:left;padding:12px 0;border-bottom:1px solid #F0EBE4}
+      .hrl-n{width:34px;height:34px;flex:0 0 34px;border-radius:50%;border:1.5px solid #2D7D46;color:#2D7D46;display:flex;align-items:center;justify-content:center;font-family:'IBM Plex Serif',Georgia,serif;font-size:15px;font-weight:600}
+      .hrl-t{font-family:'IBM Plex Serif',Georgia,serif;font-size:17px;font-weight:600;color:#1A1A1A;margin-bottom:3px;line-height:1.2}
+      .hrl-x{font-size:13px;line-height:1.45;color:#777}
+      .hrl-last{background:#EAF3ED;border-bottom:none;border-radius:10px;padding:12px 14px}
+    </style>
+    <div class="hrl">
+      <div class="hrl-row"><div class="hrl-n">1</div><div><div class="hrl-t">Распаковка команд</div><div class="hrl-x">Обе команды (Счастье + Земля) — что знают про свою HR-аудиторию.</div></div></div>
+      <div class="hrl-row"><div class="hrl-n">2</div><div><div class="hrl-t">Формирование баз</div><div class="hrl-x">Собрать и свести HR-контакты из обеих компаний.</div></div></div>
+      <div class="hrl-row"><div class="hrl-n">3</div><div><div class="hrl-t">Смысловая гипотеза</div><div class="hrl-x">Чем замотивировать HR передать книгу собственнику.</div></div></div>
+      <div class="hrl-row"><div class="hrl-n">4</div><div><div class="hrl-t">Презентация гипотезы</div><div class="hrl-x">Филиппу или ответственным с его стороны — до теста.</div></div></div>
+      <div class="hrl-row"><div class="hrl-n">5</div><div><div class="hrl-t">CustDev</div><div class="hrl-x">10-15 интервью с HR. Попадает или нет.</div></div></div>
+      <div class="hrl-row"><div class="hrl-n">6</div><div><div class="hrl-t">Выводы и докрутка</div><div class="hrl-x">По результатам интервью правим механику.</div></div></div>
+      <div class="hrl-row hrl-last"><div class="hrl-n">7</div><div><div class="hrl-t">Запуск на 150-200</div><div class="hrl-x">Отработанная механика. Сработало → масштаб на базу.</div></div></div>
+    </div>
+  </div>
+
+  <!-- 15B БЛОК 05 МАСШТАБ -->
+  <div class="slide" data-i="15b">
+    <div class="label">Блок 05 · горизонт роста</div>
+    <h1 class="title med" style="margin-bottom:34px">Что дальше, когда связка работает</h1>
+    <style>
+      .scl2{display:flex;align-items:center;gap:28px;max-width:1140px;width:100%}
+      .scl2-left{flex:0 0 320px;text-align:left}
+      .scl2-left .l-h{font-family:'IBM Plex Serif',Georgia,serif;font-size:26px;font-weight:600;color:#1A1A1A;line-height:1.2;margin-bottom:12px}
+      .scl2-left .l-t{font-size:14.5px;line-height:1.55;color:#666}
+      .scl2-mid{flex:0 0 50px;display:flex;flex-direction:column;justify-content:space-between;align-self:stretch;color:#2D7D46;font-size:26px;font-weight:700;padding:18px 0}
+      .scl2-mid span{display:flex;align-items:center;justify-content:center;flex:1}
+      .scl2-right{flex:1;display:flex;flex-direction:column;gap:14px}
+      .scl2-card{border:1px solid #EAEAEA;border-left:4px solid #2D7D46;border-radius:14px;padding:18px 22px;text-align:left;display:flex;gap:16px;align-items:center}
+      .scl2-card .c-n{font-family:'IBM Plex Serif',Georgia,serif;font-size:22px;font-weight:600;color:#2D7D46;flex:0 0 28px}
+      .scl2-card .c-h{font-family:'IBM Plex Serif',Georgia,serif;font-size:18px;font-weight:600;color:#1A1A1A;margin-bottom:3px}
+      .scl2-card .c-t{font-size:13.5px;line-height:1.45;color:#666}
+    </style>
+    <div class="scl2">
+      <div class="scl2-left">
+        <div class="l-h">Связка работает. Масштабируем HR-канал</div>
+        <div class="l-t">Механика отработана на пилоте, воронка адаптирована под HR. Дальше расширяем охват.</div>
+      </div>
+      <div class="scl2-mid"><span>→</span><span>→</span><span>→</span></div>
+      <div class="scl2-right">
+        <div class="scl2-card"><div class="c-n">1</div><div><div class="c-h">Дополнительные базы</div><div class="c-t">Расширяем список HR за пределы текущих баз Счастья и Земли.</div></div></div>
+        <div class="scl2-card"><div class="c-n">2</div><div><div class="c-h">HR-события</div><div class="c-t">Присутствие и вручение на профильных конференциях, захват контактов.</div></div></div>
+        <div class="scl2-card"><div class="c-n">3</div><div><div class="c-h">HR-лидеры мнений</div><div class="c-t">Поиск инфлюенсеров в HR-среде, посевы и рекомендации у них.</div></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- БЛОК ПРЕДПРИНИМАТЕЛИ ЦА OPENER -->
+  <div class="slide" data-i="ptseca">
+    <div class="blk-tag" style="color:#2D7D46">Раздача по людям</div>
+    <div class="opener-badge">Блок 06 из 9</div>
+    <h1 class="opener-title">Предприниматели ЦА</h1>
+    <p class="opener-line">Атланты, Клуб Первых · твёрдая ЦА. <b style="color:#2D7D46">Конечный клиент, прямой вход в воронку</b>.</p>
+  </div>
+  <!-- БЛОК ПРЕДПРИНИМАТЕЛИ ЦА DETAIL -->
+  <div class="slide" data-i="ptsecb">
+    <div class="label">Прямая раздача ЦА · подробно</div>
+    <h1 class="title med" style="margin-bottom:8px">От книги к трём целям сразу</h1>
+    <p style="color:#666;font-size:15.5px;margin-bottom:28px;max-width:880px">Человек получает книгу, из неё заходит в квиз и получает персональный результат. Дальше этот результат работает сразу на три задачи.</p>
+    <style>
+      .ptw{display:flex;align-items:center;gap:26px;max-width:1140px;width:100%}
+      .ptw-path{flex:0 0 250px;display:flex;flex-direction:column;gap:10px}
+      .ptw-pstep{background:#fff;border:1px solid #EAEAEA;border-radius:12px;padding:13px 16px;text-align:left;display:flex;gap:12px;align-items:center}
+      .ptw-pstep.last{background:linear-gradient(150deg,#2D7D46,#1f5a30);color:#fff;border-color:#2D7D46}
+      .ptw-pstep .pp-n{font-family:'IBM Plex Serif',Georgia,serif;font-size:15px;font-weight:600;color:#2D7D46;flex:0 0 18px}
+      .ptw-pstep.last .pp-n{color:#fff}
+      .ptw-pstep .pp-t{font-family:'IBM Plex Serif',Georgia,serif;font-size:15.5px;font-weight:600;color:#1A1A1A}
+      .ptw-pstep.last .pp-t{color:#fff}
+      .ptw-pdown{text-align:center;color:#C9B6A8;font-size:16px;line-height:.5}
+      .ptw-arrows{flex:0 0 40px;display:flex;flex-direction:column;justify-content:space-between;align-self:stretch;padding:14px 0;color:#2D7D46;font-size:24px;font-weight:700}
+      .ptw-arrows span{display:flex;align-items:center;justify-content:center;flex:1}
+      .ptw-goals{flex:1;display:flex;flex-direction:column;gap:14px}
+      .ptw-goal{border:1px solid #EAEAEA;border-left:4px solid;border-radius:14px;padding:16px 22px;text-align:left}
+      .ptw-goal.g1{border-left-color:#9B3B1A}.ptw-goal.g2{border-left-color:#2D7D46}.ptw-goal.g3{border-left-color:#C77700}
+      .ptw-goal .g-h{font-family:'IBM Plex Serif',Georgia,serif;font-size:18px;font-weight:600;color:#1A1A1A;margin-bottom:3px}
+      .ptw-goal .g-t{font-size:13.5px;line-height:1.45;color:#666}
+      .pts-foot{max-width:1140px;width:100%;margin-top:22px;background:#EAF3ED;border-radius:12px;padding:16px 22px;font-size:14.5px;color:#1f5a30;line-height:1.5;text-align:left}
+    </style>
+    <div class="ptw">
+      <div class="ptw-path">
+        <div class="ptw-pstep"><span class="pp-n">1</span><span class="pp-t">Получил книгу</span></div>
+        <div class="ptw-pdown">↓</div>
+        <div class="ptw-pstep"><span class="pp-n">2</span><span class="pp-t">Прошёл квиз</span></div>
+        <div class="ptw-pdown">↓</div>
+        <div class="ptw-pstep last"><span class="pp-n">3</span><span class="pp-t">Карточка результата</span></div>
+      </div>
+      <div class="ptw-arrows"><span>→</span><span>→</span><span>→</span></div>
+      <div class="ptw-goals">
+        <div class="ptw-goal g1"><div class="g-h">Вход в воронку · деньги</div><div class="g-t">С результата человек идёт в диагностику и продукт. Он сам ЛПР, ведём напрямую.</div></div>
+        <div class="ptw-goal g2"><div class="g-h">Книга становится языком</div><div class="g-t">Присваивает термины книги и говорит ими о себе. Концепция расходится, книга = категория мышления.</div></div>
+        <div class="ptw-goal g3"><div class="g-h">Органический охват</div><div class="g-t">У кого аудитория — выкладывает результат сам. Без курьеров и съёмки, чистая органика.</div></div>
+      </div>
+    </div>
+    <div class="pts-foot">Стратегическая ставка: когда предприниматели его уровня описывают себя языком книги, она перестаёт быть книгой и становится <b>рамкой мышления</b> — как «чёрный лебедь» или «квадрант денежного потока».</div>
+  </div>
+
+  <!-- БЛОК 07 · БИЗНЕС-ЗВЁЗДЫ OPENER -->
+  <div class="slide" data-i="16">
+    <div class="blk-tag" style="color:#C77700">Раздача по людям</div>
+    <div class="opener-badge">Блок 07 из 9</div>
+    <h1 class="opener-title">Бизнес-звёзды · PR</h1>
+    <p class="opener-line">Предприниматели-лидеры мнений уровня Оскара Хартмана. Креативное вручение так, чтобы <b style="color:#9B3B1A">им самим было что показать</b> в соцсетях.</p>
+  </div>
+  <!-- БЛОК 07 DETAIL -->
+  <div class="slide" data-i="17">
+    <div class="label">Блок 07 · подробно</div>
+    <h1 class="title med" style="margin-bottom:8px">Вручение, из которого рождается контент</h1>
+    <p style="color:#666;font-size:15.5px;margin-bottom:26px;max-width:860px">Цель блока · охват и статус. Звезда выкладывает не «мне подарили книгу», а то, что работает на её собственный образ. Контент рождается из самого вручения, а не из просьбы.</p>
+    <style>
+      .st8{display:grid;grid-template-columns:1.15fr 1fr;gap:22px;max-width:1080px;width:100%;text-align:left}
+      .st8-col .st8-h{font-family:'IBM Plex Serif',Georgia,serif;font-size:15px;font-weight:700;letter-spacing:.3px;color:#9B3B1A;text-transform:uppercase;margin-bottom:14px;letter-spacing:1px;font-size:12px}
+      .st8-step{display:flex;gap:13px;align-items:flex-start;margin-bottom:14px}
+      .st8-step .s-n{width:30px;height:30px;flex:0 0 30px;border-radius:50%;border:1.5px solid #C77700;color:#C77700;display:flex;align-items:center;justify-content:center;font-family:'IBM Plex Serif',Georgia,serif;font-size:14px;font-weight:600}
+      .st8-step .s-t{font-family:'IBM Plex Serif',Georgia,serif;font-size:16px;font-weight:600;color:#1A1A1A;margin-bottom:2px}
+      .st8-step .s-x{font-size:13px;line-height:1.45;color:#666}
+      .st8-ladder{background:#FBF6EF;border:1px solid #EEE3D5;border-radius:14px;padding:20px 22px}
+      .st8-rung{padding:11px 0;border-bottom:1px solid #EEE3D5}
+      .st8-rung:last-child{border-bottom:none}
+      .st8-rk{font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#C77700;margin-bottom:3px}
+      .st8-rt{font-size:14px;color:#444;line-height:1.45}
+      .st8-foot{max-width:1080px;width:100%;margin-top:20px;background:#F4EFE9;border-radius:12px;padding:15px 22px;font-size:14px;color:#555;text-align:left;line-height:1.5}
+    </style>
+    <div class="st8">
+      <div class="st8-col">
+        <div class="st8-h">Как делаем</div>
+        <div class="st8-step"><div class="s-n">1</div><div><div class="s-t">Креативная подача</div><div class="s-x">Издание уровня артефакта + персонализация под личность, с обращением от Филиппа. Это хочется показать.</div></div></div>
+        <div class="st8-step"><div class="s-n">2</div><div><div class="s-t">Вручение с фиксацией</div><div class="s-x">Курьер вручает и снимает момент: фото с книгой, видео распаковки и реакции.</div></div></div>
+        <div class="st8-step"><div class="s-n">3</div><div><div class="s-t">Сбор и склейка</div><div class="s-x">Собираем отзывы и показы, монтируем ролик для продаж книги везде.</div></div></div>
+      </div>
+      <div class="st8-col">
+        <div class="st8-h">Результат</div>
+        <div class="st8-ladder" style="background:#EAF3ED;border-color:#cfe3d6">
+          <div class="st8-rung" style="border-color:#cfe3d6"><div class="st8-rk" style="color:#2D7D46">Гарантируем</div><div class="st8-rt">Наш отснятый контент: фото с книгой и видео вручения. Это всегда на руках, даже если звезда сама ничего не выложит.</div></div>
+          <div class="st8-rung" style="border:none"><div class="st8-rk" style="color:#C77700">Хотим в идеале</div><div class="st8-rt">Звезда сама репостит, даёт отзыв или рецензию. Создаём все условия, чтобы захотела, но это её воля · не гарантия.</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="st8-foot">Работаю <b>под ключ</b>: список, креативное вручение, курьеры со съёмкой, сбор контента, монтаж. Книги покупает Филипп. Захожу через его связи там, где они есть.</div>
+  </div>
+
+  <!-- БЛОК 08 · КНИГА НА МЕРОПРИЯТИЯХ OPENER -->
+  <div class="slide" data-i="18">
+    <div class="blk-tag" style="color:#2c5aa0">Мероприятия</div>
+    <div class="opener-badge">Блок 08 из 9</div>
+    <h1 class="opener-title">Книга на мероприятиях</h1>
+    <p class="opener-line">Типизация ~50 событий в 3 формата + 3 сценария присутствия книги · вручение ведёт в воронку</p>
+  </div>
+  <!-- БЛОК 08 DETAIL -->
+  <div class="slide" data-i="19">
+    <div class="label">Блок 08 · подробно</div>
+    <h1 class="title med">Не 50 сценариев, а 3 типовых</h1>
+    <div class="tezis-list">
+      <div class="tezis"><span class="tezis-num">01</span><div class="tezis-text"><b>Типизация ~50 событий</b> в 3 формата: стратсессия / выступление со сцены / корпоратив-стенд.</div></div>
+      <div class="tezis"><span class="tezis-num">02</span><div class="tezis-text">Под каждый тип <b>один отработанный сценарий</b>: как дарим книгу, что говорит спикер, как ведём в квиз и воронку.</div></div>
+      <div class="tezis"><span class="tezis-num">03</span><div class="tezis-text">Раздатка, скрипты, QR-механика для <b>захвата контакта прямо на месте</b>.</div></div>
+      <div class="tezis"><span class="tezis-num">04</span><div class="tezis-text">Дальше 3 сценария применяются на любом событии по шаблону. Физику книг возит Writer&rsquo;s Way.</div></div>
+    </div>
+  </div>
+
+  <!-- ФОРУМ + ИНФЛЮЕНСЕРЫ -->
+  <!-- F1 OPENER -->
+  <div class="slide" data-i="f1">
+    <div class="blk-tag" style="color:#2D7D46">Форум «Стратегируй» + книга</div>
+    <div class="opener-badge">Блок 09 из 9</div>
+    <h1 class="opener-title">Форум «Стратегируй» + инфлюенсеры</h1>
+    <p class="opener-line">Форум 21&ndash;22 ноября, Сбер-Университет. Один инфлюенсер работает сразу на два результата: <b style="color:#2D7D46">продаёт форум и продвигает книгу</b>.</p>
+  </div>
+  <!-- F2 МЕХАНИКА -->
+  <div class="slide" data-i="f2">
+    <div class="label">Как это работает</div>
+    <h1 class="title med" style="margin-bottom:26px">Механика одного инфлюенсера</h1>
+    <style>
+      .fl2{max-width:1080px;width:100%;display:flex;flex-direction:column;gap:14px}
+      .fl2-row{display:flex;align-items:stretch;gap:16px}
+      .fl2-act{flex:0 0 320px;background:#fff;border:1px solid #EAEAEA;border-radius:14px;padding:18px 20px;text-align:left;display:flex;gap:14px;align-items:flex-start}
+      .fl2-num{width:38px;height:38px;flex:0 0 38px;border-radius:50%;border:1.5px solid #9B3B1A;color:#9B3B1A;display:flex;align-items:center;justify-content:center;font-family:'IBM Plex Serif',Georgia,serif;font-size:17px;font-weight:600}
+      .fl2-stage{font-size:10px;font-weight:700;letter-spacing:1.3px;text-transform:uppercase;color:#9B3B1A;margin-bottom:4px}
+      .fl2-ttl{font-family:'IBM Plex Serif',Georgia,serif;font-size:18px;font-weight:600;color:#1A1A1A;margin-bottom:4px}
+      .fl2-sub{font-size:13px;color:#777;line-height:1.4}
+      .fl2-conn{flex:0 0 40px;display:flex;align-items:center;justify-content:center;color:#C9B6A8;font-size:22px}
+      .fl2-out{flex:1;display:flex;flex-direction:column;justify-content:center;gap:8px}
+      .fl2-chip{display:flex;align-items:center;gap:10px;background:#F4EFE9;border-radius:10px;padding:11px 18px;text-align:left}
+      .fl2-chip.green{background:#EAF3ED}
+      .fl2-chip .ch-k{font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#9B3B1A;flex:0 0 86px}
+      .fl2-chip.green .ch-k{color:#2D7D46}
+      .fl2-chip .ch-v{font-size:14.5px;color:#333;line-height:1.4}
+      .fl2-chip .ch-v b{color:#1A1A1A}
+    </style>
+    <div class="fl2">
+      <!-- 1 -->
+      <div class="fl2-row">
+        <div class="fl2-act">
+          <div class="fl2-num">1</div>
+          <div><div class="fl2-stage">До форума</div><div class="fl2-ttl">Анонс форума</div><div class="fl2-sub">Пост «иду на „Стратегируй"»</div></div>
+        </div>
+        <div class="fl2-conn">→</div>
+        <div class="fl2-out">
+          <div class="fl2-chip"><span class="ch-k">Охват</span><span class="ch-v">аудитория инфлюенсера видит анонс → трафик <b>на сайт форума</b> → продажи билетов</span></div>
+        </div>
+      </div>
+      <!-- 2 -->
+      <div class="fl2-row">
+        <div class="fl2-act">
+          <div class="fl2-num">2</div>
+          <div><div class="fl2-stage">На форуме</div><div class="fl2-ttl">Приходит на ивент</div><div class="fl2-sub">+ получает книгу в подарок</div></div>
+        </div>
+        <div class="fl2-conn">→</div>
+        <div class="fl2-out">
+          <div class="fl2-chip green"><span class="ch-k">Сам ЦА</span><span class="ch-v">инфлюенсер — наша целевая → <b>попадает в воронку</b> продуктов</span></div>
+          <div class="fl2-chip"><span class="ch-k">Книга</span><span class="ch-v">получает книгу в руки → готовит публикацию о ней</span></div>
+        </div>
+      </div>
+      <!-- 3 -->
+      <div class="fl2-row">
+        <div class="fl2-act">
+          <div class="fl2-num">3</div>
+          <div><div class="fl2-stage">После</div><div class="fl2-ttl">Публикация о книге</div><div class="fl2-sub">впечатление + отзыв</div></div>
+        </div>
+        <div class="fl2-conn">→</div>
+        <div class="fl2-out">
+          <div class="fl2-chip"><span class="ch-k">Охват</span><span class="ch-v">второй заход аудитории → теперь уже <b>на саму книгу</b></span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- F2B ЭФФЕКТ -->
+  <div class="slide" data-i="f2b">
+    <div class="label">Что получаем</div>
+    <h1 class="title med" style="margin-bottom:6px">Один инфлюенсер · три выхлопа</h1>
+    <p style="color:#666;font-size:16px;margin-bottom:30px;max-width:760px">За одно участие · по бартеру, без прямого гонорара.</p>
+    <style>
+      .hub{display:flex;flex-direction:column;align-items:center;max-width:1000px;width:100%}
+      .hub-node{background:#1A1A1A;color:#fff;border-radius:14px;padding:16px 30px;text-align:center;margin-bottom:0}
+      .hub-node .hn-n{font-family:'IBM Plex Serif',Georgia,serif;font-size:26px;font-weight:600;line-height:1}
+      .hub-node .hn-t{font-size:12px;letter-spacing:1px;text-transform:uppercase;opacity:.8;margin-top:4px}
+      .hub-fan{position:relative;width:100%;height:46px}
+      .hub-fan svg{position:absolute;inset:0;width:100%;height:100%}
+      .hub-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;width:100%}
+      .hub-card{border:1px solid #EAEAEA;border-top:4px solid;border-radius:16px;padding:26px 26px;text-align:left;background:#fff}
+      .hub-card.e1{border-top-color:#9B3B1A}.hub-card.e2{border-top-color:#C77700}.hub-card.e3{border-top-color:#2D7D46}
+      .hub-card .hc-k{font-size:11px;font-weight:700;letter-spacing:1.3px;text-transform:uppercase;margin-bottom:14px}
+      .hub-card.e1 .hc-k{color:#9B3B1A}.hub-card.e2 .hc-k{color:#C77700}.hub-card.e3 .hc-k{color:#2D7D46}
+      .hub-card .hc-h{font-family:'IBM Plex Serif',Georgia,serif;font-size:23px;font-weight:600;color:#1A1A1A;margin-bottom:10px;line-height:1.15}
+      .hub-card .hc-t{font-size:14px;line-height:1.5;color:#666}
+    </style>
+    <div class="hub">
+      <div class="hub-node"><div class="hn-n">1 инфлюенсер</div><div class="hn-t">одно участие · по бартеру</div></div>
+      <div class="hub-fan">
+        <svg viewBox="0 0 600 46" preserveAspectRatio="none">
+          <path d="M300 0 L150 46" stroke="#9B3B1A" stroke-width="2" fill="none"/>
+          <path d="M300 0 L300 46" stroke="#C77700" stroke-width="2" fill="none"/>
+          <path d="M300 0 L450 46" stroke="#2D7D46" stroke-width="2" fill="none"/>
+        </svg>
+      </div>
+      <div class="hub-grid">
+        <div class="hub-card e1"><div class="hc-k">Выхлоп 1</div><div class="hc-h">Продвигает форум</div><div class="hc-t">Пост-анонс «иду на „Стратегируй"» → аудитория идёт на сайт форума → продажи билетов.</div></div>
+        <div class="hub-card e2"><div class="hc-k">Выхлоп 2</div><div class="hc-h">Продвигает книгу</div><div class="hc-t">После ивента впечатление и отзыв на книгу → второй заход аудитории, уже на книгу.</div></div>
+        <div class="hub-card e3"><div class="hc-k">Выхлоп 3</div><div class="hc-h">Сам как лид</div><div class="hc-t">Инфлюенсер — наша ЦА. Сам попадает в воронку продуктов как потенциальный клиент.</div></div>
+      </div>
+    </div>
+  </div>
+  <!-- F3 ПАКЕТЫ -->
+  <div class="slide" data-i="f3">    <h1 class="title med" style="margin-bottom:8px">3 пакета на выбор</h1>
+    <p style="color:#666;font-size:15px;margin-bottom:26px;max-width:760px">Чем больше объём, тем ниже цена за инфлюенсера. Стартуем пилотом, по результату масштабируем.</p>
+    <style>
+      .infl-pk{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;max-width:900px;width:100%}
+      .infl-card{border:1px solid #EAEAEA;border-radius:16px;padding:26px 24px;background:#fff;text-align:left}
+      .infl-card.mid{background:linear-gradient(135deg,#2D7D46,#1f5a30);color:#fff;border-color:#2D7D46;transform:scale(1.04)}
+      .infl-lab{font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#999;margin-bottom:14px}
+      .infl-card.mid .infl-lab{color:rgba(255,255,255,.85)}
+      .infl-cnt{font-family:'IBM Plex Serif',Georgia,serif;font-size:38px;font-weight:600;line-height:1;margin-bottom:6px}
+      .infl-cnt-sub{font-size:13px;color:#999;margin-bottom:20px}
+      .infl-card.mid .infl-cnt-sub{color:rgba(255,255,255,.8)}
+      .infl-price{font-family:'IBM Plex Serif',Georgia,serif;font-size:24px;font-weight:600;padding-top:16px;border-top:1px solid #EEE}
+      .infl-card.mid .infl-price{border-top-color:rgba(255,255,255,.25)}
+    </style>
+    <div class="infl-pk">
+      <div class="infl-card"><div class="infl-lab">Пилот</div><div class="infl-cnt">30</div><div class="infl-cnt-sub">инфлюенсеров · 23 000 ₽ за шт.</div><div class="infl-price">690 000 ₽</div></div>
+      <div class="infl-card mid"><div class="infl-lab">Базовый</div><div class="infl-cnt">50</div><div class="infl-cnt-sub">инфлюенсеров · 19 500 ₽ за шт.</div><div class="infl-price">975 000 ₽</div></div>
+      <div class="infl-card"><div class="infl-lab">Полный</div><div class="infl-cnt">100</div><div class="infl-cnt-sub">инфлюенсеров · 17 500 ₽ за шт.</div><div class="infl-price">1 750 000 ₽</div></div>
+    </div>
+  </div>
+
+  <!-- 14 ЗОНЫ -->
+  <!-- 26 ДИСТРИБУЦИЯ OPENER -->
+  <div class="slide" data-i="26">
+    <div class="opener-badge">Зона агентства · WW</div>
+    <h1 class="opener-title">Дистрибуция</h1>
+    <p class="opener-line">Готовая инфраструктура продаж от Writer&rsquo;s Way. <b style="color:#9B3B1A">4 канала, договоры готовы, фикс. цена.</b></p>
+  </div>
+
+  <!-- 27 ДИСТРИБУЦИЯ СХЕМА -->
+  <div class="slide" data-i="27">
+    <div class="label">Из чего состоит</div>
+    <h1 class="title med">4 компонента дистрибуции</h1>
+    <div class="dist-tree">
+      <div class="dist-root">Дистрибуция</div>
+      <div class="dist-arrow-down">↓</div>
+      <div class="dist-children">
+        <div class="dist-child" data-go="29">
+          <div class="dist-child-num">01</div>
+          <div class="dist-child-title">Маркетплейсы</div>
+          <div class="dist-child-sub">Ozon · WB · Я.Маркет</div>
+        </div>
+        <div class="dist-child" data-go="30">
+          <div class="dist-child-num">02</div>
+          <div class="dist-child-title">Электронные<br>площадки</div>
+          <div class="dist-child-sub">Литрес · МТС Строки</div>
+        </div>
+        <div class="dist-child" data-go="31">
+          <div class="dist-child-num">03</div>
+          <div class="dist-child-title">Мероприятия</div>
+          <div class="dist-child-sub">~50 событий в год</div>
+        </div>
+        <div class="dist-child" data-go="32">
+          <div class="dist-child-num">04</div>
+          <div class="dist-child-title">Предзаказ</div>
+          <div class="dist-child-sub">Сайт + CRM + СДЭК</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 28 МАРКЕТПЛЕЙСЫ -->
+  <div class="slide" data-i="28">
+    <div class="label">Дистрибуция · компонент 01</div>
+    <h1 class="title med">Маркетплейсы</h1>
+    <div class="tezis-list">
+      <div class="tezis"><span class="tezis-num">01</span><div class="tezis-text"><b>Ozon, Wildberries, Яндекс.Маркет</b> · три главные площадки.</div></div>
+      <div class="tezis"><span class="tezis-num">02</span><div class="tezis-text">Создаются <b>карточки товара</b> с инфографикой и фото. Концепция · на стороне продюсера, исполнение · Writer&rsquo;s Way.</div></div>
+      <div class="tezis"><span class="tezis-num">03</span><div class="tezis-text"><b>3 месяца настройки + реклама</b> на одной площадке (рекомендуется Ozon).</div></div>
+      <div class="tezis"><span class="tezis-num">04</span><div class="tezis-text"><b>Важно:</b> органика маркетплейсов не приводит клиентов сама. Это присутствие/охват, не основной канал продаж. <b>Сайт продаёт лучше</b>.</div></div>
+    </div>
+  </div>
+
+  <!-- 29 ЭЛЕКТРОННЫЕ -->
+  <div class="slide" data-i="29">
+    <div class="label">Дистрибуция · компонент 02</div>
+    <h1 class="title med">Электронные площадки</h1>
+    <div class="tezis-list">
+      <div class="tezis"><span class="tezis-num">01</span><div class="tezis-text"><b>Литрес</b> (с дочерними сервисами) <b>+ МТС Строки</b> (бывшие).</div></div>
+      <div class="tezis"><span class="tezis-num">02</span><div class="tezis-text">Электронная и аудио версии. Writer&rsquo;s Way заводит, размещает, ведёт.</div></div>
+      <div class="tezis"><span class="tezis-num">03</span><div class="tezis-text">Доп. опция: <b>акции Литреса</b> · баннеры, подборки, полки. ~20 000 ₽ за 2 недели · попадание в узкие подборки целевой аудитории.</div></div>
+      <div class="tezis"><span class="tezis-num">04</span><div class="tezis-text">Отчёты и роялти автору <b>раз в квартал</b>.</div></div>
+    </div>
+  </div>
+
+  <!-- 30 МЕРОПРИЯТИЯ -->
+  <div class="slide" data-i="30">
+    <div class="label">Дистрибуция · компонент 03</div>
+    <h1 class="title med">Мероприятия</h1>
+    <div class="tezis-list">
+      <div class="tezis"><span class="tezis-num">01</span><div class="tezis-text"><b>~50 мероприятий в год</b> у тебя. Книга должна попасть на каждое · иначе сценарий не работает.</div></div>
+      <div class="tezis"><span class="tezis-num">02</span><div class="tezis-text"><b>Бесплатно входит:</b> мероприятия где издательство WW едет само (книга с собой на стенд).</div></div>
+      <div class="tezis"><span class="tezis-num">03</span><div class="tezis-text"><b>Индивидуальный расчёт:</b> по списку мероприятий · удалённость от Москвы, формат (стенд / выступление), стоимость площадки.</div></div>
+      <div class="tezis"><span class="tezis-num">04</span><div class="tezis-text"><b>Нужно от твоей команды:</b> календарь мероприятий с датами и местами. Через Олю.</div></div>
+    </div>
+  </div>
+
+  <!-- 31 ПРЕДЗАКАЗ -->
+  <div class="slide" data-i="31">
+    <div class="label">Дистрибуция · компонент 04</div>
+    <h1 class="title med">Предзаказ</h1>
+    <div class="tezis-list">
+      <div class="tezis"><span class="tezis-num">01</span><div class="tezis-text"><b>Сайт книги</b>, точка приёма предзаказов. Делает продюсер, передаёт в Writer&rsquo;s Way для подключения.</div></div>
+      <div class="tezis"><span class="tezis-num">02</span><div class="tezis-text"><b>Writer&rsquo;s Way подключает:</b> CRM, СДЭК (доставка), договоры на оплату.</div></div>
+      <div class="tezis"><span class="tezis-num">03</span><div class="tezis-text"><b>Цикл:</b> июль-август-сентябрь · сбор предзаказов. Книга выходит → массовая отправка → кнопка меняется с «предзаказ» на «заказать».</div></div>
+      <div class="tezis"><span class="tezis-num">04</span><div class="tezis-text"><b>Финансы:</b> деньги на стороне WW → автору перечисляются за вычетом комиссии. Договоры готовы.</div></div>
+    </div>
+  </div>
+
+  <!-- 32 ПАКЕТЫ И ЦЕНЫ -->
+  <div class="slide" data-i="32">
+    <div class="label">Стоимость дистрибуции</div>
+    <h1 class="title med">3 пакета на выбор</h1>
+    <div class="pkg-grid">
+      <div class="pkg-card">
+        <div class="pkg-name">Электронная</div>
+        <div><span class="pkg-price">75 000 ₽</span> <span class="pkg-price-unit">/ год</span></div>
+        <ul class="pkg-list">
+          <li>Литрес + МТС Строки</li>
+          <li>Реклама по согласованию</li>
+          <li>Отчёты + роялти квартально</li>
+        </ul>
+      </div>
+      <div class="pkg-card">
+        <div class="pkg-name">Электронная + Аудио</div>
+        <div><span class="pkg-price">180 000 ₽</span> <span class="pkg-price-unit">/ год</span></div>
+        <ul class="pkg-list">
+          <li>Литрес (с дочерними) + МТС Строки</li>
+          <li>Электронная + аудио</li>
+          <li>Отчёты + роялти квартально</li>
+        </ul>
+      </div>
+      <div class="pkg-card featured">
+        <div class="pkg-badge">Рекомендуется</div>
+        <div class="pkg-name">Полная</div>
+        <div><span class="pkg-price">250 000 ₽</span> <span class="pkg-price-unit">/ год</span></div>
+        <ul class="pkg-list">
+          <li>Все форматы (МП + электронные)</li>
+          <li>Карточки товара, инфографика, фото</li>
+          <li>Хранение до 100 экз. + упаковка + логистика</li>
+          <li>Работа с отзывами и вопросами</li>
+          <li>Обеспечение наличия</li>
+          <li>Отчёты + роялти квартально</li>
+        </ul>
+      </div>
+    </div>
+    <div class="promo-card">
+      <div class="promo-content">
+        <div class="promo-title">Промо на старте</div>
+        <div class="promo-text">Баннер на Литресе · 50 000 ₽ за 2 недели на запуске, даёт буст продаж. Дальше повтор каждые 3-4 месяца по результату.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 17 СПИСОК КОРОТКОГО ТРЕКА -->
+  <div class="slide" data-i="35">
+    <div class="label">Что входит в короткий трек</div>
+    <h1 class="title med">9 блоков работы</h1>
+    <style>
+      .track-list{display:grid;grid-template-columns:1fr 1fr;gap:14px;max-width:1150px;width:100%;text-align:left}
+      .track-item{background:#fff;border:1px solid #EAEAEA;border-left:4px solid #9B3B1A;border-radius:12px;padding:18px 24px;display:flex;align-items:center;gap:18px}
+      .track-num{font-family:'IBM Plex Serif',Georgia,serif;font-size:32px;font-weight:600;color:#9B3B1A;line-height:1;min-width:42px;font-variant-numeric:tabular-nums}
+      .track-content{flex:1}
+      .track-title{font-family:'IBM Plex Serif',Georgia,serif;font-size:19px;font-weight:600;color:#1A1A1A;line-height:1.2;margin-bottom:3px}
+      .track-sub{font-size:13.5px;color:#666;line-height:1.4}
+    </style>
+    <div class="track-list">
+      <div class="track-item">
+        <div class="track-num">01</div>
+        <div class="track-content">
+          <div class="track-title">Сайт предзаказа + сайт книги</div>
+          <div class="track-sub">Точка приёма предзаказов, встроен в воронку</div>
+        </div>
+      </div>
+      <div class="track-item">
+        <div class="track-num">02</div>
+        <div class="track-content">
+          <div class="track-title">Вкладыш в книгу</div>
+          <div class="track-sub">Связка книга → квиз → диагностика</div>
+        </div>
+      </div>
+      <div class="track-item">
+        <div class="track-num">03</div>
+        <div class="track-content">
+          <div class="track-title">Квиз №1 · личная стратегия</div>
+          <div class="track-sub">На базе книги · прототип уже есть</div>
+        </div>
+      </div>
+      <div class="track-item">
+        <div class="track-num">04</div>
+        <div class="track-content">
+          <div class="track-title">Квиз №2 · бизнес-стратегия</div>
+          <div class="track-sub">На базе канваса стратегирования</div>
+        </div>
+      </div>
+      <div class="track-item">
+        <div class="track-num">05</div>
+        <div class="track-content">
+          <div class="track-title">HR-канал</div>
+          <div class="track-sub">Книга у HR → собственник. Механика через CustDev</div>
+        </div>
+      </div>
+      <div class="track-item">
+        <div class="track-num">06</div>
+        <div class="track-content">
+          <div class="track-title">Предприниматели ЦА</div>
+          <div class="track-sub">Атланты, Клуб Первых · прямой вход в воронку</div>
+        </div>
+      </div>
+      <div class="track-item">
+        <div class="track-num">07</div>
+        <div class="track-content">
+          <div class="track-title">Бизнес-звёзды · PR</div>
+          <div class="track-sub">Креативное вручение лидерам мнений под ключ</div>
+        </div>
+      </div>
+      <div class="track-item">
+        <div class="track-num">08</div>
+        <div class="track-content">
+          <div class="track-title">Книга на мероприятиях</div>
+          <div class="track-sub">3 типовых сценария присутствия на ~50 событиях</div>
+        </div>
+      </div>
+      <div class="track-item">
+        <div class="track-num">09</div>
+        <div class="track-content">
+          <div class="track-title">Форум «Стратегируй» + инфлюенсеры</div>
+          <div class="track-sub">Инфлюенсеры на форум и книгу · отдельный бюджет</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ТАЙМЛАЙН -->
+  <div class="slide scroll" data-i="timeline">
+    <div class="label">Когда что происходит</div>
+    <h1 class="title med" style="margin-bottom:26px">Таймлайн</h1>
+    <style>
+      .gt{max-width:1180px;width:100%}
+      .gt-legend{display:flex;gap:22px;flex-wrap:wrap;margin-bottom:18px;font-size:13px;color:#555}
+      .gt-legend .lg{display:flex;align-items:center;gap:8px}
+      .gt-sw{width:16px;height:10px;border-radius:3px}
+      .gt-sw.p1{background:#9B3B1A}.gt-sw.p2{background:#C77700}.gt-sw.p3{background:#2D7D46}.gt-sw.continuous{background:#777}
+      .gantt{background:#fff;border:1px solid #EAEAEA;border-radius:14px;overflow:hidden;text-align:left}
+      .gantt-head{display:grid;grid-template-columns:240px repeat(7,1fr);background:#F4EFE9;padding:13px 0 13px 18px;border-bottom:1px solid #EAEAEA;font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#888;align-items:center}
+      .gantt-head>div{text-align:center}.gantt-head>div:first-child{text-align:left}
+      .gantt-row{display:grid;grid-template-columns:240px repeat(7,1fr);padding:12px 0 12px 18px;border-bottom:1px solid #F4EFE9;align-items:center;min-height:50px}
+      .gantt-row:last-child{border-bottom:none}
+      .gantt-name{padding-right:12px}
+      .gantt-num{font-family:'IBM Plex Serif',Georgia,serif;font-style:italic;font-size:12px;color:#9B3B1A;opacity:.7}
+      .gantt-title{font-family:'IBM Plex Serif',Georgia,serif;font-size:14px;font-weight:600;color:#1A1A1A;line-height:1.25;margin-top:2px}
+      .gantt-cell{position:relative;height:34px;border-right:1px solid #F4EFE9}
+      .gantt-cell:last-child{border-right:none}
+      .gantt-bar{position:absolute;height:28px;top:3px;border-radius:7px;display:flex;align-items:center;padding:0 11px;font-size:11.5px;font-weight:600;color:#fff;box-shadow:0 2px 6px rgba(0,0,0,.1);overflow:hidden;white-space:nowrap}
+      .gantt-bar.p1{background:linear-gradient(90deg,#9B3B1A,#7a2e14)}
+      .gantt-bar.p2{background:linear-gradient(90deg,#C77700,#A05E00)}
+      .gantt-bar.p3{background:linear-gradient(90deg,#2D7D46,#1f5a30)}
+      .gantt-bar.continuous{background:linear-gradient(90deg,#888,#666)}
+    </style>
+    <div class="gt">
+      <div class="gt-legend">
+        <div class="lg"><span class="gt-sw p1"></span>Фаза 1 · подготовка</div>
+        <div class="lg"><span class="gt-sw p2"></span>Фаза 2 · запуск</div>
+        <div class="lg"><span class="gt-sw p3"></span>Фаза 3 · раскачка</div>
+        <div class="lg"><span class="gt-sw continuous"></span>постоянно</div>
+      </div>
+      <div class="gantt">
+        <div class="gantt-head"><div>Блок работы</div><div>Июнь</div><div>Июль</div><div>Август</div><div>Сентябрь</div><div>Октябрь</div><div>Ноябрь</div><div>Декабрь</div></div>
+        <div class="gantt-row"><div class="gantt-name"><span class="gantt-num">02</span><div class="gantt-title">Вкладыш в книгу</div></div><div class="gantt-cell"><div class="gantt-bar p1" style="left:50%;width:170%">15.06 → 25.07</div></div><div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div></div>
+        <div class="gantt-row"><div class="gantt-name"><span class="gantt-num">01</span><div class="gantt-title">Сайт предзаказа</div></div><div class="gantt-cell"><div class="gantt-bar p1" style="left:50%;width:120%">15.06 → 5.07</div></div><div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div></div>
+        <div class="gantt-row"><div class="gantt-name"><span class="gantt-num">03</span><div class="gantt-title">Квиз №1 · личная</div></div><div class="gantt-cell"><div class="gantt-bar p1" style="left:65%;width:250%">20.06 → 10.08</div></div><div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div></div>
+        <div class="gantt-row"><div class="gantt-name"><span class="gantt-num">04</span><div class="gantt-title">Квиз №2 · бизнес</div></div><div class="gantt-cell"></div><div class="gantt-cell"><div class="gantt-bar p1" style="left:0%;width:265%">1.07 → 20.08</div></div><div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div></div>
+        <div class="gantt-row"><div class="gantt-name"><span class="gantt-num">05</span><div class="gantt-title">HR-канал</div></div><div class="gantt-cell"></div><div class="gantt-cell"><div class="gantt-bar p1" style="left:0%;width:100%">концепция</div></div><div class="gantt-cell"><div class="gantt-bar p1" style="left:0%;width:100%">CustDev</div></div><div class="gantt-cell"><div class="gantt-bar p2" style="left:0%;width:200%">запуск 150-200</div></div><div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div></div>
+        <div class="gantt-row"><div class="gantt-name"><span class="gantt-num">06</span><div class="gantt-title">Предприниматели ЦА</div></div><div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"><div class="gantt-bar p1" style="left:0%;width:100%">подготовка</div></div><div class="gantt-cell"><div class="gantt-bar p2" style="left:0%;width:200%">раздача</div></div><div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div></div>
+        <div class="gantt-row"><div class="gantt-name"><span class="gantt-num">07</span><div class="gantt-title">Бизнес-звёзды · PR</div></div><div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"><div class="gantt-bar p1" style="left:0%;width:100%">подготовка</div></div><div class="gantt-cell"><div class="gantt-bar p2" style="left:0%;width:200%">вручение</div></div><div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div></div>
+        <div class="gantt-row"><div class="gantt-name"><span class="gantt-num">08</span><div class="gantt-title">Книга на мероприятиях</div></div><div class="gantt-cell"></div><div class="gantt-cell"><div class="gantt-bar p1" style="left:0%;width:100%">3 сценария</div></div><div class="gantt-cell"><div class="gantt-bar continuous" style="left:0%;width:500%">внедрение на событиях</div></div><div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div></div>
+        <div class="gantt-row"><div class="gantt-name"><span class="gantt-num">09</span><div class="gantt-title">Форум + инфлюенсеры</div></div><div class="gantt-cell"></div><div class="gantt-cell"><div class="gantt-bar p1" style="left:0%;width:400%">привлечение инфлюенсеров</div></div><div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"><div class="gantt-bar p3" style="left:0%;width:100%">форум</div></div><div class="gantt-cell"></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- СМЕТА -->
+  <div class="slide scroll" data-i="sm">    <h1 class="title med" style="margin-bottom:24px">Смета · продюсирование запуска</h1>
+    <style>
+      .sm2{max-width:1000px;width:100%;text-align:left}
+      .sm2-table{border:1px solid #EAEAEA;border-radius:16px;overflow:hidden;background:#fff;margin-bottom:14px}
+      .sm2-row{display:grid;grid-template-columns:46px 1fr 150px;gap:16px;padding:16px 24px;border-bottom:1px solid #F2EEE8;align-items:baseline}
+      .sm2-row:last-child{border-bottom:none}
+      .sm2-num{font-family:'IBM Plex Serif',Georgia,serif;font-size:17px;color:#9B3B1A;font-weight:600;font-style:italic}
+      .sm2-ttl{font-family:'IBM Plex Serif',Georgia,serif;font-size:16.5px;font-weight:600;color:#1A1A1A;line-height:1.25}
+      .sm2-sub{font-size:13px;color:#999;margin-top:5px;line-height:1.45}
+      .sm2-price{font-family:'IBM Plex Serif',Georgia,serif;font-size:17px;font-weight:600;text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap;color:#1A1A1A}
+      .sm2-foot{display:grid;grid-template-columns:46px 1fr 150px;gap:16px;padding:16px 24px;background:#FBF8F3;border-top:1px solid #EAEAEA}
+      .sm2-foot .sm2-flbl{font-weight:600;font-size:14px;letter-spacing:.3px;text-transform:uppercase;color:#666;align-self:center}
+      .sm2-foot .sm2-fval{font-family:'IBM Plex Serif',Georgia,serif;font-size:20px;font-weight:600;text-align:right;color:#1A1A1A}
+      .sm2-sec{font-family:'IBM Plex Serif',Georgia,serif;font-size:21px;font-weight:600;color:#1A1A1A;margin:30px 0 14px}
+      .sm2-totals{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:24px}
+      .sm2-card{border:1px solid #EAEAEA;border-radius:14px;padding:20px 24px;background:#fff}
+      .sm2-card.feat{border-color:#E0D4C8}
+      .sm2-clab{font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#999;margin-bottom:8px}
+      .sm2-cval{font-family:'IBM Plex Serif',Georgia,serif;font-size:26px;font-weight:600;font-variant-numeric:tabular-nums;color:#1A1A1A}
+    </style>
+    <div class="sm2">
+      <div class="sm2-sec" style="margin-top:0">Проектирование воронки</div>
+      <div class="sm2-table">
+        <div class="sm2-row"><div class="sm2-num">01</div><div><div class="sm2-ttl">Сайт предзаказа + сайт книги</div><div class="sm2-sub">Точка приёма предзаказов и сайт книги.</div></div><div class="sm2-price">175 000</div></div>
+        <div class="sm2-row"><div class="sm2-num">02</div><div><div class="sm2-ttl">Вкладыш в книгу</div><div class="sm2-sub">Концепция, тексты, дизайн вкладыша с QR · под печать.</div></div><div class="sm2-price">150 000</div></div>
+        <div class="sm2-row"><div class="sm2-num">03</div><div><div class="sm2-ttl">Квиз №1 · личная стратегия</div><div class="sm2-sub">Интерактивная диагностика на базе книги.</div></div><div class="sm2-price">540 000</div></div>
+        <div class="sm2-row"><div class="sm2-num">04</div><div><div class="sm2-ttl">Квиз №2 · бизнес-стратегия</div><div class="sm2-sub">Интерактив на базе канваса стратегирования.</div></div><div class="sm2-price">540 000</div></div>
+        <div class="sm2-foot"><div></div><div class="sm2-flbl">Итого · проектирование воронки</div><div class="sm2-fval">1 405 000 ₽</div></div>
+      </div>
+
+      <div class="sm2-sec" style="color:#2D7D46">Раздача 2000 · по людям</div>
+      <div class="sm2-table">
+        <div class="sm2-row"><div class="sm2-num">05</div><div><div class="sm2-ttl">HR-канал</div><div class="sm2-sub">Распаковка баз → гипотеза → проверка на 10-15 HR (CustDev) → запуск на 150-200. Механика «книга у HR → собственник».</div></div><div class="sm2-price">580 000</div></div>
+        <div class="sm2-row"><div class="sm2-num">06</div><div><div class="sm2-ttl">Предприниматели ЦА</div><div class="sm2-sub">Атланты, Клуб Первых · прямой вход в воронку + посев терминологии через квиз-карточку + органический охват.</div></div><div class="sm2-price">345 000</div></div>
+        <div class="sm2-row"><div class="sm2-num">07</div><div><div class="sm2-ttl">Бизнес-звёзды · PR</div><div class="sm2-sub">Предприниматели-лидеры мнений уровня Оскара Хартмана (не шоу-бизнес). Креативное вручение под ключ: фото, видео вручения, отзывы и показ в соцсетях.</div></div><div class="sm2-price">640 000</div></div>
+        <div class="sm2-foot"><div></div><div class="sm2-flbl">Подытог · раздача по людям</div><div class="sm2-fval">1 565 000 ₽</div></div>
+      </div>
+
+      <div class="sm2-sec" style="color:#2c5aa0">Мероприятия · смысловая работа</div>
+      <div class="sm2-table">
+        <div class="sm2-row"><div class="sm2-num">07</div><div><div class="sm2-ttl">Книга на мероприятиях</div><div class="sm2-sub">Типизация ~50 событий в 3 формата + разработка 3 сценариев присутствия книги (вручение → воронка). Физику возит Writer&rsquo;s Way.</div></div><div class="sm2-price">350 000</div></div>
+        <div class="sm2-foot"><div></div><div class="sm2-flbl">Подытог · мероприятия</div><div class="sm2-fval">350 000 ₽</div></div>
+      </div>
+
+      <div class="sm2-sec" style="color:#2D7D46">Инфлюенсеры · форум «Стратегируй» + книга</div>
+      <div class="sm2-table">
+        <div class="sm2-row"><div class="sm2-num">11</div><div><div class="sm2-ttl">Форум + инфлюенсеры</div><div class="sm2-sub">Инфлюенсеры под форум «Стратегируй» по бартеру. Пакет на выбор: 30 / 50 / 100 инфлюенсеров.</div></div><div class="sm2-price">690 000<br><span style="font-size:12px;color:#999;font-weight:400">– 1 750 000</span></div></div>
+        <div class="sm2-foot"><div></div><div class="sm2-flbl">Базовый пакет · 50 инфл.</div><div class="sm2-fval" style="color:#2D7D46">975 000 ₽</div></div>
+      </div>
+
+      <div class="sm2-totals" style="grid-template-columns:1fr 1fr">
+        <div class="sm2-card feat"><div class="sm2-clab">Запуск книги «Счастье»</div><div class="sm2-cval">3 320 000 ₽</div></div>
+        <div class="sm2-card"><div class="sm2-clab">Инфлюенсеры · форум + книга (базовый)</div><div class="sm2-cval" style="color:#2D7D46">975 000 ₽</div></div>
+      </div>
+      <div style="margin-top:16px;background:linear-gradient(135deg,#9B3B1A,#7a2e14);color:#fff;border-radius:14px;padding:22px 28px;display:flex;align-items:center;justify-content:space-between">
+        <div style="font-size:13px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;opacity:.85">Итого · продюсирование</div>
+        <div style="font-family:'IBM Plex Serif',Georgia,serif;font-size:30px;font-weight:600;font-variant-numeric:tabular-nums">4 295 000 ₽</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- СМЕТА · ДИСТРИБУЦИЯ -->
+  <div class="slide scroll" data-i="sm-dist">    <h1 class="title med" style="margin-bottom:10px">Смета · дистрибуция</h1>
+    <p style="color:#666;font-size:16px;margin-bottom:26px;max-width:820px">Отдельный трек · услуги Writer&rsquo;s Way. Идёт прямым договором с издательством.</p>
+    <div class="sm2">
+      <div class="sm2-sec" style="margin-top:0">Дистрибуция · Writer&rsquo;s Way</div>
+      <div class="sm2-table">
+        <div class="sm2-row"><div class="sm2-num">·</div><div><div class="sm2-ttl">Полный пакет дистрибуции</div><div class="sm2-sub">Маркетплейсы (Ozon · WB · Я.Маркет) + электронные площадки (Литрес · МТС Строки) + аудио, карточки, остатки, логистика, отзывы.</div></div><div class="sm2-price">250 000<br><span style="font-size:12px;color:#999;font-weight:400">за год</span></div></div>
+        <div class="sm2-row"><div class="sm2-num">·</div><div><div class="sm2-ttl">Промо на Литресе</div><div class="sm2-sub">Баннер 50к на старте + повтор 50к через 3-4 месяца. Дальше по продажам.</div></div><div class="sm2-price">100 000<br><span style="font-size:12px;color:#999;font-weight:400">50к + 50к</span></div></div>
+        <div class="sm2-row"><div class="sm2-num">·</div><div><div class="sm2-ttl">Склад (тираж 2000 экз)</div><div class="sm2-sub">Хранение и обслуживание сверх 100 экз. Верхняя граница, по факту может быть меньше.</div></div><div class="sm2-price">120 000<br><span style="font-size:12px;color:#999;font-weight:400">20к × 6 мес</span></div></div>
+        <div class="sm2-foot"><div></div><div class="sm2-flbl">Итого дистрибуции · фикс</div><div class="sm2-fval">470 000 ₽</div></div>
+      </div>
+
+      <div style="display:flex;align-items:center;gap:20px;background:#F4EFE9;border-radius:14px;padding:20px 26px;margin-top:8px;text-align:left">
+        <div style="flex:1">
+          <div style="font-family:'IBM Plex Serif',Georgia,serif;font-size:17px;font-weight:600;color:#1A1A1A;margin-bottom:4px">Дистрибуция на мероприятиях · переменная</div>
+          <div style="font-size:13px;color:#888;line-height:1.45">Физическое присутствие, стенд, доставка книг. Считается отдельно: <b>цена × количество событий</b>. Аренда стендоместа и участие · сверху, по площадке.</div>
+        </div>
+        <div style="text-align:right;white-space:nowrap"><span style="font-family:'IBM Plex Serif',Georgia,serif;font-size:28px;font-weight:600;color:#9B3B1A">30 000 ₽</span><div style="font-size:13px;color:#888;margin-top:2px">за событие</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- МОДЕЛЬ ОПЛАТЫ -->
+  <div class="slide scroll" data-i="pay">    <h1 class="title med" style="margin-bottom:30px">Схема оплаты</h1>
+    <style>
+      .payt{max-width:1000px;width:100%;margin-bottom:18px}
+      .payt-h{font-size:12px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#9B3B1A;margin-bottom:18px;text-align:left}
+      .payt-line{display:grid;grid-template-columns:repeat(3,1fr);position:relative}
+      .payt-line::before{content:'';position:absolute;top:23px;left:16.6%;right:16.6%;height:2px;background:#E5D9CE;z-index:0}
+      .payt-node{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;text-align:center}
+      .payt-dot{width:48px;height:48px;border-radius:50%;background:#fff;border:2px solid #E5D9CE;display:flex;align-items:center;justify-content:center;font-family:'IBM Plex Serif',Georgia,serif;font-size:17px;font-weight:600;color:#9B3B1A;margin-bottom:14px}
+      .payt-node.first .payt-dot{background:#9B3B1A;border-color:#9B3B1A;color:#fff}
+      .payt-when{font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#999;margin-bottom:6px}
+      .payt-sum{font-family:'IBM Plex Serif',Georgia,serif;font-size:21px;font-weight:600;color:#1A1A1A;margin-bottom:6px}
+      .payt-txt{font-size:13px;line-height:1.45;color:#777;max-width:240px}
+      .payt-txt b{color:#1A1A1A}
+      .pay-forum{max-width:1000px;width:100%;display:flex;align-items:center;gap:20px;background:#fff;border:1px solid #cfe3d6;border-left:4px solid #2D7D46;border-radius:14px;padding:18px 24px;margin-bottom:14px;text-align:left}
+      .pay-forum .pf-l{flex:1}
+      .pay-forum .pf-h{font-family:'IBM Plex Serif',Georgia,serif;font-size:17px;font-weight:600;color:#1A1A1A;margin-bottom:3px}
+      .pay-forum .pf-t{font-size:13.5px;color:#777;line-height:1.45}
+      .pay-forum .pf-t b{color:#2D7D46}
+      .pay-forum .pf-sum{font-family:'IBM Plex Serif',Georgia,serif;font-size:22px;font-weight:600;color:#2D7D46;white-space:nowrap}
+      .pay-bonus{max-width:1000px;width:100%;display:flex;align-items:center;gap:22px;background:#FBF6EF;border:1px solid #EEE3D5;border-radius:14px;padding:18px 24px;text-align:left}
+      .pay-bonus .pb-tag{flex:0 0 auto;font-size:11px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:#fff;background:#C77700;border-radius:8px;padding:8px 15px;line-height:1.3;text-align:center;max-width:110px}
+      .pay-bonus .pb-txt{flex:1;font-size:14.5px;line-height:1.5;color:#555}
+      .pay-bonus .pb-txt b{color:#1A1A1A}
+    </style>
+    <div class="payt">
+      <div class="payt-h">Продюсирование запуска · 3 320 000 ₽</div>
+      <div class="payt-line">
+        <div class="payt-node first"><div class="payt-dot">30%</div><div class="payt-when">При подписании</div><div class="payt-sum">996 000 ₽</div><div class="payt-txt">Аванс · старт работ, запускаю сборку воронки</div></div>
+        <div class="payt-node"><div class="payt-dot">30%</div><div class="payt-when">Конец августа</div><div class="payt-sum">996 000 ₽</div><div class="payt-txt"><b>Воронка готова</b> к выходу книги: сайт, вкладыш, квизы</div></div>
+        <div class="payt-node"><div class="payt-dot">40%</div><div class="payt-when">Сентябрь–октябрь</div><div class="payt-sum">1 328 000 ₽</div><div class="payt-txt">Запуск раздачи: HR, предприниматели, звёзды, мероприятия</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ФОРУМ · ОТДЕЛЬНЫЙ ТРЕК -->
+  <div class="slide" data-i="forum-track">
+    <div class="blk-tag" style="color:#2D7D46">Отдельный трек</div>
+    <h1 class="title med" style="margin-bottom:10px">Форум · стартуем сейчас</h1>
+    <p style="color:#666;font-size:16px;margin-bottom:36px;max-width:840px">Другой бюджет и другой темп, не привязан к фазам книги. Инфлюенсеров привлекаем заранее: форум уже в ноябре.</p>
+    <style>
+      .ft-row{display:flex;align-items:flex-start;justify-content:center;max-width:980px;width:100%;margin-bottom:26px}
+      .ft-step{flex:1;text-align:left;padding:0 8px}
+      .ft-num{font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#2D7D46;margin-bottom:8px}
+      .ft-h{font-family:'IBM Plex Serif',Georgia,serif;font-size:19px;font-weight:600;color:#1A1A1A;margin-bottom:6px}
+      .ft-t{font-size:14px;line-height:1.5;color:#777;max-width:240px}
+      .ft-arrow{flex:0 0 30px;display:flex;align-items:flex-start;justify-content:center;color:#C9B6A8;font-size:20px;padding-top:14px}
+      .ft-sum{display:flex;align-items:center;gap:18px;max-width:980px;width:100%;background:#EAF3ED;border:1px solid #cfe3d6;border-radius:14px;padding:20px 26px}
+      .ft-sum .fs-t{flex:1;font-size:14.5px;line-height:1.45;color:#1f5a30}
+      .ft-sum .fs-v{font-family:'IBM Plex Serif',Georgia,serif;font-size:24px;font-weight:600;color:#2D7D46;white-space:nowrap}
+    </style>
+    <div class="ft-row">
+      <div class="ft-step"><div class="ft-num">Сейчас → октябрь</div><div class="ft-h">Привлечение</div><div class="ft-t">Находим и ведём инфлюенсеров, они анонсируют форум заранее.</div></div>
+      <div class="ft-arrow">→</div>
+      <div class="ft-step"><div class="ft-num">21–22 ноября</div><div class="ft-h">Форум</div><div class="ft-t">Приезжают, получают книгу, постят с события.</div></div>
+      <div class="ft-arrow">→</div>
+      <div class="ft-step"><div class="ft-num">После</div><div class="ft-h">Отзывы</div><div class="ft-t">Рассказывают про форум и дают отзыв на книгу.</div></div>
+    </div>
+    <div class="ft-sum">
+      <div class="fs-t">Базовый пакет · 50 инфлюенсеров. Отдельный бюджет, запускается независимо от остального.</div>
+      <div class="fs-v">975 000 ₽</div>
+    </div>
+    <div style="display:flex;gap:14px;max-width:980px;width:100%;margin-top:14px">
+      <div style="flex:1;border:1px solid #EAEAEA;border-radius:12px;padding:14px 18px;text-align:left;background:#fff"><div style="font-family:'IBM Plex Serif',Georgia,serif;font-size:20px;font-weight:600;color:#2D7D46">50%</div><div style="font-size:13px;color:#777;margin-top:2px">на старте · 487 500 ₽<br>запуск привлечения</div></div>
+      <div style="flex:1;border:1px solid #EAEAEA;border-radius:12px;padding:14px 18px;text-align:left;background:#fff"><div style="font-family:'IBM Plex Serif',Georgia,serif;font-size:20px;font-weight:600;color:#2D7D46">25%</div><div style="font-size:13px;color:#777;margin-top:2px">после анонсов · 243 750 ₽<br>инфлюенсеры анонсировали форум</div></div>
+      <div style="flex:1;border:1px solid #EAEAEA;border-radius:12px;padding:14px 18px;text-align:left;background:#fff"><div style="font-family:'IBM Plex Serif',Georgia,serif;font-size:20px;font-weight:600;color:#2D7D46">25%</div><div style="font-size:13px;color:#777;margin-top:2px">после отзывов · 243 750 ₽<br>написали отзывы про книгу</div></div>
+    </div>
+  </div>
+
+  <!-- БОНУС ЗА СТАРТ -->
+  <div class="slide" data-i="bonus">
+    <div class="blk-tag" style="color:#9B3B1A">Бонус за старт сейчас</div>
+    <h1 class="title med" style="margin-bottom:34px">Подготовка выступления под ключ</h1>
+    <style>
+      .bn-row{display:flex;gap:18px;max-width:1000px;width:100%;margin-bottom:22px}
+      .bn-card{flex:1;border:1px solid #EAEAEA;border-top:4px solid #9B3B1A;border-radius:16px;padding:24px 24px;text-align:left;background:#fff}
+      .bn-k{font-size:11px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:#9B3B1A;margin-bottom:12px}
+      .bn-h{font-family:'IBM Plex Serif',Georgia,serif;font-size:21px;font-weight:600;color:#1A1A1A;margin-bottom:8px;line-height:1.2}
+      .bn-t{font-size:14px;line-height:1.5;color:#666}
+      .bn-where{max-width:1000px;width:100%;background:#F4EFE9;border-radius:12px;padding:16px 22px;font-size:14.5px;color:#555;line-height:1.5;text-align:left;margin-bottom:16px}
+      .bn-where b{color:#1A1A1A}
+      .bn-offer{display:flex;align-items:center;gap:20px;max-width:1000px;width:100%;background:linear-gradient(135deg,#9B3B1A,#7a2e14);color:#fff;border-radius:16px;padding:22px 28px}
+      .bn-offer .bo-t{flex:1;font-size:15px;line-height:1.45;opacity:.95}
+      .bn-offer .bo-v{font-family:'IBM Plex Serif',Georgia,serif;font-size:26px;font-weight:600;white-space:nowrap}
+    </style>
+    <div class="bn-row">
+      <div class="bn-card"><div class="bn-k">Шаг 1 · диагностика</div><div class="bn-h">Анализ по 36 параметрам</div><div class="bn-t">Разбираю выступление по 36 критериям: структура, подача, контакт с залом, смыслы. Вижу, что усилить.</div></div>
+      <div class="bn-card"><div class="bn-k">Шаг 2 · подготовка</div><div class="bn-h">Метод «7 слоёв»</div><div class="bn-t">Собираю выступление под ключ как шоу: от смысла до сцены. Чтобы вышел и держал зал, а не плыл.</div></div>
+    </div>
+    <div class="bn-offer">
+      <div class="bo-t">Бонус за старт · на выбор:<br><b>Подготовка выступления под ключ</b> (ценность 450 000 ₽)<br>или <b>225 000 ₽ скидкой с суммы трека</b></div>
+    </div>
+  </div>
+
+  <!-- БЛАНК 36 ПАРАМЕТРОВ -->
+  <div class="slide" data-i="blank36" style="background:#0d111c">
+    <style>
+      .b36{max-width:1240px;width:100%;color:#E5E9F0}
+      .b36-head{text-align:center;margin-bottom:24px}
+      .b36-head h2{font-family:'IBM Plex Serif',Georgia,serif;font-size:30px;font-weight:600;color:#fff;margin-bottom:6px}
+      .b36-head p{font-size:14px;color:#8b93a7}
+      .b36-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px 44px}
+      .b36-cat{margin-bottom:6px}
+      .b36-cat-h{font-size:13px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#c7ccd9;margin-bottom:10px}
+      .b36-r{display:grid;grid-template-columns:120px 1fr 22px;gap:12px;align-items:center;margin-bottom:7px}
+      .b36-lbl{font-size:13px;color:#8b93a7;text-align:left;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+      .b36-bar{display:block;height:14px;background:#1b2133;border-radius:8px;overflow:hidden}
+      .b36-fill{display:block;height:100%;border-radius:8px;min-width:8px}
+      .b36-fill.g{background:#34D399}.b36-fill.p{background:#A78BFA}.b36-fill.r{background:#F87171}
+      .b36-v{font-size:13px;font-weight:600;color:#c7ccd9;text-align:right}
+      .b36-leg{display:flex;gap:28px;justify-content:center;margin-top:22px;font-size:13px;color:#8b93a7}
+      .b36-leg span{display:flex;align-items:center;gap:8px}
+      .b36-dot{width:11px;height:11px;border-radius:50%}
+    </style>
+    <div class="b36">
+      <div class="b36-head"><h2>Бланк оценки спикерских компетенций</h2><p>Каждый из 36 параметров оценивается от 1 до 10</p></div>
+      <div class="b36-grid">
+        <div class="b36-cat"><div class="b36-cat-h">Голос</div>
+          <div class="b36-r"><span class="b36-lbl">Громкость</span><span class="b36-bar"><span class="b36-fill p" style="width:70%"></span></span><span class="b36-v">7</span></div>
+          <div class="b36-r"><span class="b36-lbl">Тембр</span><span class="b36-bar"><span class="b36-fill g" style="width:80%"></span></span><span class="b36-v">8</span></div>
+          <div class="b36-r"><span class="b36-lbl">Темп речи</span><span class="b36-bar"><span class="b36-fill p" style="width:50%"></span></span><span class="b36-v">5</span></div>
+          <div class="b36-r"><span class="b36-lbl">Паузы</span><span class="b36-bar"><span class="b36-fill r" style="width:40%"></span></span><span class="b36-v">4</span></div>
+          <div class="b36-r"><span class="b36-lbl">Интонация</span><span class="b36-bar"><span class="b36-fill p" style="width:60%"></span></span><span class="b36-v">6</span></div>
+          <div class="b36-r"><span class="b36-lbl">Артикуляция</span><span class="b36-bar"><span class="b36-fill g" style="width:80%"></span></span><span class="b36-v">8</span></div>
+        </div>
+        <div class="b36-cat"><div class="b36-cat-h">Работа с залом</div>
+          <div class="b36-r"><span class="b36-lbl">Вовлечение</span><span class="b36-bar"><span class="b36-fill p" style="width:50%"></span></span><span class="b36-v">5</span></div>
+          <div class="b36-r"><span class="b36-lbl">Ответы на вопросы</span><span class="b36-bar"><span class="b36-fill p" style="width:70%"></span></span><span class="b36-v">7</span></div>
+          <div class="b36-r"><span class="b36-lbl">Импровизация</span><span class="b36-bar"><span class="b36-fill r" style="width:40%"></span></span><span class="b36-v">4</span></div>
+          <div class="b36-r"><span class="b36-lbl">Считывание зала</span><span class="b36-bar"><span class="b36-fill r" style="width:30%"></span></span><span class="b36-v">3</span></div>
+          <div class="b36-r"><span class="b36-lbl">Упр. вниманием</span><span class="b36-bar"><span class="b36-fill p" style="width:60%"></span></span><span class="b36-v">6</span></div>
+          <div class="b36-r"><span class="b36-lbl">Возражения</span><span class="b36-bar"><span class="b36-fill p" style="width:50%"></span></span><span class="b36-v">5</span></div>
+        </div>
+        <div class="b36-cat"><div class="b36-cat-h">Язык тела</div>
+          <div class="b36-r"><span class="b36-lbl">Жесты</span><span class="b36-bar"><span class="b36-fill p" style="width:60%"></span></span><span class="b36-v">6</span></div>
+          <div class="b36-r"><span class="b36-lbl">Поза</span><span class="b36-bar"><span class="b36-fill p" style="width:70%"></span></span><span class="b36-v">7</span></div>
+          <div class="b36-r"><span class="b36-lbl">Перемещение</span><span class="b36-bar"><span class="b36-fill r" style="width:40%"></span></span><span class="b36-v">4</span></div>
+          <div class="b36-r"><span class="b36-lbl">Мимика</span><span class="b36-bar"><span class="b36-fill p" style="width:50%"></span></span><span class="b36-v">5</span></div>
+          <div class="b36-r"><span class="b36-lbl">Зр. контакт</span><span class="b36-bar"><span class="b36-fill g" style="width:80%"></span></span><span class="b36-v">8</span></div>
+          <div class="b36-r"><span class="b36-lbl">Энергетика</span><span class="b36-bar"><span class="b36-fill p" style="width:70%"></span></span><span class="b36-v">7</span></div>
+        </div>
+        <div class="b36-cat"><div class="b36-cat-h">Визуалы</div>
+          <div class="b36-r"><span class="b36-lbl">Дизайн слайдов</span><span class="b36-bar"><span class="b36-fill g" style="width:80%"></span></span><span class="b36-v">8</span></div>
+          <div class="b36-r"><span class="b36-lbl">Читаемость</span><span class="b36-bar"><span class="b36-fill g" style="width:90%"></span></span><span class="b36-v">9</span></div>
+          <div class="b36-r"><span class="b36-lbl">Уместность</span><span class="b36-bar"><span class="b36-fill p" style="width:70%"></span></span><span class="b36-v">7</span></div>
+          <div class="b36-r"><span class="b36-lbl">Синхронность</span><span class="b36-bar"><span class="b36-fill p" style="width:50%"></span></span><span class="b36-v">5</span></div>
+          <div class="b36-r"><span class="b36-lbl">Минимализм</span><span class="b36-bar"><span class="b36-fill g" style="width:80%"></span></span><span class="b36-v">8</span></div>
+          <div class="b36-r"><span class="b36-lbl">Акценты</span><span class="b36-bar"><span class="b36-fill p" style="width:60%"></span></span><span class="b36-v">6</span></div>
+        </div>
+        <div class="b36-cat"><div class="b36-cat-h">Структура</div>
+          <div class="b36-r"><span class="b36-lbl">Логика</span><span class="b36-bar"><span class="b36-fill g" style="width:90%"></span></span><span class="b36-v">9</span></div>
+          <div class="b36-r"><span class="b36-lbl">Аргументация</span><span class="b36-bar"><span class="b36-fill g" style="width:80%"></span></span><span class="b36-v">8</span></div>
+          <div class="b36-r"><span class="b36-lbl">Примеры</span><span class="b36-bar"><span class="b36-fill p" style="width:60%"></span></span><span class="b36-v">6</span></div>
+          <div class="b36-r"><span class="b36-lbl">Переходы</span><span class="b36-bar"><span class="b36-fill p" style="width:50%"></span></span><span class="b36-v">5</span></div>
+          <div class="b36-r"><span class="b36-lbl">Тайминг</span><span class="b36-bar"><span class="b36-fill p" style="width:70%"></span></span><span class="b36-v">7</span></div>
+          <div class="b36-r"><span class="b36-lbl">Ключ. мысли</span><span class="b36-bar"><span class="b36-fill g" style="width:80%"></span></span><span class="b36-v">8</span></div>
+        </div>
+        <div class="b36-cat"><div class="b36-cat-h">Эмоции</div>
+          <div class="b36-r"><span class="b36-lbl">Искренность</span><span class="b36-bar"><span class="b36-fill g" style="width:90%"></span></span><span class="b36-v">9</span></div>
+          <div class="b36-r"><span class="b36-lbl">Уверенность</span><span class="b36-bar"><span class="b36-fill p" style="width:70%"></span></span><span class="b36-v">7</span></div>
+          <div class="b36-r"><span class="b36-lbl">Энтузиазм</span><span class="b36-bar"><span class="b36-fill g" style="width:80%"></span></span><span class="b36-v">8</span></div>
+          <div class="b36-r"><span class="b36-lbl">Эмпатия</span><span class="b36-bar"><span class="b36-fill p" style="width:60%"></span></span><span class="b36-v">6</span></div>
+          <div class="b36-r"><span class="b36-lbl">Storytelling</span><span class="b36-bar"><span class="b36-fill p" style="width:50%"></span></span><span class="b36-v">5</span></div>
+          <div class="b36-r"><span class="b36-lbl">Призыв к действию</span><span class="b36-bar"><span class="b36-fill r" style="width:40%"></span></span><span class="b36-v">4</span></div>
+        </div>
+      </div>
+      <div class="b36-leg">
+        <span><span class="b36-dot" style="background:#34D399"></span>8–10 · сильная сторона</span>
+        <span><span class="b36-dot" style="background:#A78BFA"></span>5–7 · зона внимания</span>
+        <span><span class="b36-dot" style="background:#F87171"></span>1–4 · нужно усилить</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 7 СЛОЁВ -->
+  <div class="slide" data-i="layers7">
+    <div class="blk-tag" style="color:#9B3B1A">Подготовка под ключ</div>
+    <h1 class="title med" style="margin-bottom:8px">Как готовим выступление</h1>
+    <p style="color:#666;font-size:16px;margin-bottom:34px;max-width:880px">Одно выступление собираем вместе, профессионально, по 7 слоям.</p>
+    <style>
+      .l7{display:flex;gap:10px;max-width:1240px;width:100%}
+      .l7-card{flex:1;min-width:0;background:#fff;border:1px solid #EEE3D5;border-radius:14px;padding:18px 12px;text-align:center;box-shadow:0 4px 14px rgba(155,59,26,.06)}
+      .l7-circle{width:46px;height:46px;border-radius:50%;background:linear-gradient(150deg,#9B3B1A,#C77700);display:flex;align-items:center;justify-content:center;margin:0 auto 12px;font-family:'IBM Plex Serif',Georgia,serif;font-size:19px;font-weight:600;color:#fff}
+      .l7-h{font-family:'IBM Plex Serif',Georgia,serif;font-size:14.5px;font-weight:600;color:#1A1A1A;margin-bottom:8px;line-height:1.2;min-height:36px}
+      .l7-t{font-size:12px;line-height:1.4;color:#999}
+    </style>
+    <div class="l7">
+      <div class="l7-card"><div class="l7-circle">1</div><div class="l7-h">Идейный слой</div><div class="l7-t">Ключевая идея и посыл выступления</div></div>
+      <div class="l7-card"><div class="l7-circle">2</div><div class="l7-h">Логика и структура</div><div class="l7-t">Построение аргументации и последовательности</div></div>
+      <div class="l7-card"><div class="l7-circle">3</div><div class="l7-h">Эмоциональный слой</div><div class="l7-t">Эмоциональное воздействие и вовлечение</div></div>
+      <div class="l7-card"><div class="l7-circle">4</div><div class="l7-h">Исполнительный слой</div><div class="l7-t">Репетиции и отработка выступления</div></div>
+      <div class="l7-card"><div class="l7-circle">5</div><div class="l7-h">Слой воронки</div><div class="l7-t">К какому действию ведёт выступление</div></div>
+      <div class="l7-card"><div class="l7-circle">6</div><div class="l7-h">Визуальный слой</div><div class="l7-t">Презентация и визуальное сопровождение</div></div>
+      <div class="l7-card"><div class="l7-circle">7</div><div class="l7-h">Финальная сборка</div><div class="l7-t">Целостность и согласованность выступления</div></div>
+    </div>
+  </div>
+
+  <!-- ВЫХЛОП · РАСЧЁТ ВОРОНКИ -->
+  <div class="slide" data-i="payoff">
+    <div class="label">Зачем воронка · на цифрах</div>
+    <h1 class="title med" style="margin-bottom:10px">Что даёт воронка</h1>
+    <p class="subtitle" style="max-width:880px;margin-bottom:30px;font-size:17px">Допущение: <b style="color:#9B3B1A">1 000 человек</b> получили книгу, средний чек клиента <b style="color:#9B3B1A">~1 млн ₽</b>. Один и тот же поток · разная конверсия.</p>
+    <style>
+      .cv-tbl{max-width:1060px;width:100%;border:1px solid #E5DCD0;border-radius:16px;overflow:hidden;background:#fff;text-align:left}
+      .cv-row{display:grid;grid-template-columns:1.6fr 1fr 1fr 1fr 1fr}
+      .cv-row+.cv-row{border-top:1px solid #F2EEE8}
+      .cv-head{background:#F4EFE9}
+      .cv-head>div{padding:14px 18px;font-size:11.5px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:#999}
+      .cv-head>div:nth-child(3){color:#2D7D46}
+      .cv-head>div:nth-child(4){color:#C77700}
+      .cv-head>div:nth-child(5){color:#9B3B1A}
+      .cv-cell{padding:12px 18px;font-size:15px;color:#1A1A1A;font-variant-numeric:tabular-nums}
+      .cv-cell.lbl{color:#666}
+      .cv-pct{color:#b3b3b3;font-size:12px;margin-left:5px}
+      .cv-thru{background:#FEF6EE}
+      .cv-thru .cv-cell{font-weight:600}
+      .cv-thru .cv-cell:nth-child(3){color:#2D7D46}
+      .cv-thru .cv-cell:nth-child(4){color:#C77700}
+      .cv-thru .cv-cell:nth-child(5){color:#9B3B1A}
+      .cv-rev{background:#FBF8F3}
+      .cv-rev .cv-cell{font-family:'IBM Plex Serif',Georgia,serif;font-size:19px;font-weight:600}
+      .cv-rev .cv-cell:nth-child(3){color:#2D7D46}
+      .cv-rev .cv-cell:nth-child(4){color:#C77700}
+      .cv-rev .cv-cell:nth-child(5){color:#9B3B1A}
+      .cv-punch{margin-top:22px;max-width:960px;font-size:16px;color:#1A1A1A;line-height:1.55;text-align:center}
+      .cv-punch b{color:#9B3B1A}
+      .cv-note{margin-top:12px;max-width:960px;font-size:13px;color:#999;line-height:1.5;text-align:center}
+    </style>
+    <div class="cv-tbl">
+      <div class="cv-row cv-head"><div>Этап воронки</div><div>Без воронки</div><div>Сценарий 1</div><div>Сценарий 2</div><div>Сценарий 3</div></div>
+      <div class="cv-row"><div class="cv-cell lbl">Книга в руках</div><div class="cv-cell">1 000</div><div class="cv-cell">1 000</div><div class="cv-cell">1 000</div><div class="cv-cell">1 000</div></div>
+      <div class="cv-row"><div class="cv-cell lbl">Перешли на квиз<br><span style="font-size:11px;color:#aaa">вкладыш + QR</span></div><div class="cv-cell" style="color:#ccc">·</div><div class="cv-cell">150<span class="cv-pct">15%</span></div><div class="cv-cell">200<span class="cv-pct">20%</span></div><div class="cv-cell">250<span class="cv-pct">25%</span></div></div>
+      <div class="cv-row"><div class="cv-cell lbl">Прошли квиз</div><div class="cv-cell" style="color:#ccc">·</div><div class="cv-cell">75<span class="cv-pct">50%</span></div><div class="cv-cell">110<span class="cv-pct">55%</span></div><div class="cv-cell">160<span class="cv-pct">65%</span></div></div>
+      <div class="cv-row"><div class="cv-cell lbl">Записались на диагностику</div><div class="cv-cell" style="color:#ccc">·</div><div class="cv-cell">30<span class="cv-pct">40%</span></div><div class="cv-cell">48<span class="cv-pct">44%</span></div><div class="cv-cell">72<span class="cv-pct">45%</span></div></div>
+      <div class="cv-row"><div class="cv-cell lbl">Купили</div><div class="cv-cell">5<span class="cv-pct">прямые</span></div><div class="cv-cell">10<span class="cv-pct">33%</span></div><div class="cv-cell">16<span class="cv-pct">33%</span></div><div class="cv-cell">24<span class="cv-pct">33%</span></div></div>
+      <div class="cv-row cv-thru"><div class="cv-cell lbl" style="align-self:center">Сквозная конверсия<br><span style="font-size:11px;color:#aaa">книга → клиент</span></div><div class="cv-cell">0,5%</div><div class="cv-cell">1,0%</div><div class="cv-cell">1,6%</div><div class="cv-cell">2,4%</div></div>
+      <div class="cv-row cv-rev"><div class="cv-cell lbl" style="align-self:center">Выручка за год</div><div class="cv-cell">5 млн ₽</div><div class="cv-cell">10 млн ₽</div><div class="cv-cell">16 млн ₽</div><div class="cv-cell">24 млн ₽</div></div>
+    </div>
+  </div>
+</div>
+
+</div><!-- /deck-wrap -->
+
+
+<div class="nav">
+  <button class="nav-btn" id="prev">←</button>
+  <span class="nav-counter"><span id="cur">1</span> / <span id="total">13</span></span>
+  <button class="nav-btn" id="next">→</button>
+</div>
+
+<script>
+const slides = document.querySelectorAll('.slide');
+const cur = document.getElementById('cur');
+const total = document.getElementById('total');
+const prev = document.getElementById('prev');
+const next = document.getElementById('next');
+let i = 0;
+total.textContent = slides.length;
+const KEY = 'sozvon-filipp-slide';
+function go(n){
+  i = Math.max(0, Math.min(slides.length-1, n));
+  slides.forEach((s,k)=>s.classList.toggle('active', k===i));
+  cur.textContent = i+1;
+  prev.disabled = i===0;
+  next.disabled = i===slides.length-1;
+  try{ localStorage.setItem(KEY, String(i)); }catch(e){}
+  if(location.hash !== '#'+(i+1)) history.replaceState(null,'','#'+(i+1));
+}
+prev.onclick = ()=>go(i-1);
+next.onclick = ()=>go(i+1);
+document.addEventListener('keydown', e=>{
+  if(e.key==='ArrowRight'||e.key===' ') go(i+1);
+  if(e.key==='ArrowLeft') go(i-1);
+  if(e.key==='Home') go(0);
+  if(e.key==='End') go(slides.length-1);
+});
+let start = 0;
+const hashN = parseInt((location.hash||'').replace('#',''),10);
+if(!isNaN(hashN) && hashN>=1 && hashN<=slides.length){ start = hashN-1; }
+else{ try{ const s=parseInt(localStorage.getItem(KEY),10); if(!isNaN(s)) start=s; }catch(e){} }
+
+// Resolve data-go to slide index: match by data-i (stable), else numeric position
+function resolveGo(val){
+  for(let k=0;k<slides.length;k++){ if(slides[k].dataset.i===val) return k; }
+  const n=parseInt(val,10); return isNaN(n)?-1:n-1;
+}
+// Sidebar navigation
+const sideItems = document.querySelectorAll('.side-item');
+sideItems.forEach(item => {
+  item.addEventListener('click', () => {
+    const idx = resolveGo(item.dataset.go);
+    if(idx>=0) go(idx);
+  });
+});
+// Roadmap / distribution / contents navigation
+document.querySelectorAll('.rm-item[data-go], .dist-child[data-go], .cl-it[data-go]').forEach(item => {
+  item.addEventListener('click', () => {
+    const idx = resolveGo(item.dataset.go);
+    if(idx>=0) go(idx);
+  });
+});
+// Highlight active item in sidebar
+const origGo = go;
+go = function(n){
+  origGo(n);
+  sideItems.forEach(item => {
+    item.classList.toggle('active', resolveGo(item.dataset.go) === n);
+  });
+};
+
+// Sidebar section collapse
+const SEC_KEY = 'sozvon-filipp-sec';
+function loadSecState(){ try{ return JSON.parse(localStorage.getItem(SEC_KEY)||'{}'); }catch(e){ return {}; } }
+function saveSecState(s){ try{ localStorage.setItem(SEC_KEY, JSON.stringify(s)); }catch(e){} }
+const secState = loadSecState();
+document.querySelectorAll('.side-section').forEach(sec => {
+  const label = sec.querySelector('.side-section-label');
+  const key = label.dataset.section;
+  if(secState[key]) sec.classList.add('collapsed');
+  label.addEventListener('click', () => {
+    sec.classList.toggle('collapsed');
+    secState[key] = sec.classList.contains('collapsed');
+    saveSecState(secState);
+  });
+});
+
+// Sidebar toggle
+const sidebar = document.getElementById('sidebar');
+const sideToggle = document.getElementById('side-toggle');
+const SIDE_KEY = 'sozvon-filipp-sidebar';
+if(localStorage.getItem(SIDE_KEY) === '0') sidebar.classList.add('collapsed');
+sideToggle.addEventListener('click', () => {
+  sidebar.classList.toggle('collapsed');
+  localStorage.setItem(SIDE_KEY, sidebar.classList.contains('collapsed') ? '0' : '1');
+});
+
+go(start);
+
+// Прогрессивное раскрытие воронки на слайде 2
+(function(){
+  const funnel = document.getElementById('funnel-mini');
+  if(!funnel) return;
+  const stage = document.getElementById('funnel-stage');
+  const rows = Array.from(funnel.querySelectorAll('.fm-row'));
+  const total = rows.length;
+  const btnReset = document.getElementById('fm-reset');
+  let step = 1;
+  function render(){
+    rows.forEach((r,i)=>{
+      r.classList.toggle('shown', i < step);
+      r.classList.toggle('is-last', i === step-1 && step < total);
+    });
+    if(stage) stage.classList.toggle('looped', step === total);
+  }
+  function advance(){ if(step<total){ step++; render(); }}
+  rows.forEach(r => r.addEventListener('click',()=>{ if(r.classList.contains('shown')) advance(); }));
+  if(btnReset) btnReset.addEventListener('click',(e)=>{ e.stopPropagation(); step=1; render(); });
+  // Клавиатура · работает когда слайд 2 активен
+  document.addEventListener('keydown',(e)=>{
+    const slide2 = document.querySelector('.slide[data-i="2"]');
+    if(!slide2 || !slide2.classList.contains('active')) return;
+    if(e.target.tagName==='INPUT'||e.target.tagName==='TEXTAREA'||e.target.tagName==='BUTTON') return;
+    if(step < total && (e.key==='ArrowRight' || e.key===' ')){
+      // Не блокируем нативное переключение слайда если воронка раскрыта полностью
+      e.preventDefault(); advance();
+    }
+  }, true);
+  render();
+})();
+</script>
+
+</body>
+</html>
