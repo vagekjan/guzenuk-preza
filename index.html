@@ -430,8 +430,8 @@ body{font-family:'Inter',-apple-system,sans-serif;background:#1a1a1a;color:#fff;
 
   <!-- РАЗРЕЗ: ЯСНО / ПРОЯСНЕНИЕ -->
   <div class="slide" data-i="split">
-    <div class="label">Как заходим в работу</div>
-    <h1 class="title med" style="margin-bottom:30px">Берём понятное сразу</h1>
+    <div class="label">Как устроен запуск</div>
+    <h1 class="title med" style="margin-bottom:30px">Два слоя работы</h1>
     <style>
       .sp-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;max-width:1080px;width:100%;align-items:start}
       .sp-col{border:1px solid #E5DCD0;border-radius:18px;padding:24px 26px;text-align:left;border-top:4px solid #ccc;background:#fff}
@@ -448,16 +448,16 @@ body{font-family:'Inter',-apple-system,sans-serif;background:#1a1a1a;color:#fff;
     </style>
     <div class="sp-grid">
       <div class="sp-col ready">
-        <div class="sp-h">Ясно · старт сразу</div>
-        <div class="sp-sub">Цифровая инфраструктура. Фикс-цена, паковка и работа сейчас.</div>
+        <div class="sp-h">Фундамент · воронка</div>
+        <div class="sp-sub">Цифровая инфраструктура. Делаем первой — на неё завязано всё остальное.</div>
         <div class="sp-item"><span class="sp-num">01</span>Сайт предзаказа</div>
         <div class="sp-item"><span class="sp-num">02</span>Вкладыш в книгу</div>
         <div class="sp-item"><span class="sp-num">03</span>Квиз №1 · личная стратегия</div>
         <div class="sp-item"><span class="sp-num">04</span>Квиз №2 · бизнес-стратегия</div>
       </div>
       <div class="sp-col tbd">
-        <div class="sp-h">Требует прояснения</div>
-        <div class="sp-sub">Зависит от данных Филиппа и синхрона с бандами. Рамочно сейчас · детально доп.соглашениями.</div>
+        <div class="sp-h">Каналы запуска</div>
+        <div class="sp-sub">Доставка книги к людям и продвижение. Запускаем на готовую воронку, по фазам.</div>
         <div class="sp-item"><span class="sp-num">05</span>HR-канал</div>
         <div class="sp-item"><span class="sp-num">06</span>Предприниматели ЦА</div>
         <div class="sp-item"><span class="sp-num">07</span>Бизнес-звёзды · PR</div>
@@ -1515,7 +1515,7 @@ const secState = loadSecState();
 document.querySelectorAll('.side-section').forEach(sec => {
   const label = sec.querySelector('.side-section-label');
   const key = label.dataset.section;
-  if(secState[key]) sec.classList.add('collapsed');
+  // разделы всегда развёрнуты при загрузке (чтобы видны все слайды)
   label.addEventListener('click', () => {
     sec.classList.toggle('collapsed');
     secState[key] = sec.classList.contains('collapsed');
@@ -1527,7 +1527,7 @@ document.querySelectorAll('.side-section').forEach(sec => {
 const sidebar = document.getElementById('sidebar');
 const sideToggle = document.getElementById('side-toggle');
 const SIDE_KEY = 'sozvon-filipp-sidebar';
-if(localStorage.getItem(SIDE_KEY) === '0') sidebar.classList.add('collapsed');
+// меню всегда открыто при загрузке (чтобы все видели навигацию)
 sideToggle.addEventListener('click', () => {
   sidebar.classList.toggle('collapsed');
   localStorage.setItem(SIDE_KEY, sidebar.classList.contains('collapsed') ? '0' : '1');
